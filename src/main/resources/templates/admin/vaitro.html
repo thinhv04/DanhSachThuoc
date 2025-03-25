@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị hệ thống</title>
+    <link rel="shortcut icon"
+        href="https://idodesign.vn/wp-content/uploads/2023/08/mau-thiet-ke-logo-nha-thuoc-dep-6.jpg"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* Thiết lập font chữ */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 📝 Hiệu ứng hover và bóng cho FORM */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ✏️ Hiệu ứng cho Input */
+        input.form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 📋 Bảng với hiệu ứng hover */
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5 !important;
+            font-weight: bold;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 🖱️ Nút hành động */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <div th:replace="~{admin/navbar :: navbar}"></div>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/menu :: menu}"></div>
+
+
+
+        <!-- Main Content -->
+        <main class="content w-100">
+            <!-- Toast thông báo -->
+
+            <div class="container" th:fragment="vaitro">
+                <div class="row align-items-start">
+                    <!-- Toast thông báo -->
+                    <div aria-live="polite" aria-atomic="true" class="position-relative">
+                        <div class="toast-container top-0 end-0 p-3">
+
+                            <!-- Thông báo thành công -->
+                            <div th:if="${successMessage}" id="successToast" class="toast border-0 show" role="alert"
+                                aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-primary text-white">
+                                    <strong class="me-auto">Thông báo</strong>
+                                    <small>Vừa xong</small>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    <span th:text="${successMessage}"></span>
+                                </div>
+                            </div>
+
+                            <!-- Thông báo lỗi -->
+                            <div th:if="${errorMessage}" id="errorToast" class="toast  border-0 show" role="alert"
+                                aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header bg-primary text-white">
+                                    <strong class="me-auto">Lỗi</strong>
+                                    <small>Vừa xong</small>
+                                    <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast"
+                                        aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+
+                                    <span th:text="${errorMessage}"> </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ---- -->
+                    <div>
+                        <form th:action="@{/quanly/trangchu/vaitro/timkiem}" method="get" class="mb-4">
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="keyword" th:value="${keyword}"
+                                    placeholder="Tìm kiếm vai trò">
+                                <button class="btn btn-primary" type="submit">Tìm</button>
+                            </div>
+                        </form>
+                    </div>
+                    <!-- Form nhập vai trò -->
+                    <div class="col-md-6">
+                        <form th:action="@{/quanly/trangchu/vaitro}" method="post" class="mb-4">
+                            <div class="mb-3">
+                                <label class="form-label">Mã Vai Trò</label>
+                                <input type="text" class="form-control" name="maVaiTro" th:value="${vaitro.maVaiTro}">
+
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label">Tên Vai Trò</label>
+                                <input type="text" class="form-control" name="tenVaiTro" th:value="${vaitro.tenVaiTro}">
+
+                            </div>
+
+                            <button type="submit" class="btn btn-primary"
+                                th:text="${vaitro != null and vaitro.maVaiTro != null} ? 'Cập Nhật' : 'Thêm'">
+                            </button>
+                            <a th:href="@{/quanly/trangchu/vaitro}" class="btn btn-secondary">Reset</a>
+                        </form>
+                    </div>
+
+                    <!-- Bảng danh sách vai trò -->
+                    <div class="col-md-6">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Tên Vai Trò</th>
+                                    <th>Hành Động</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="vt : ${vaiTroList}">
+                                    <td th:text="${vt.maVaiTro}"></td>
+                                    <td th:text="${vt.tenVaiTro}"></td>
+                                    <td>
+                                        <a th:href="@{/quanly/trangchu/vaitro/edit/{maVaiTro}(maVaiTro=${vt.maVaiTro})}"
+                                            class="btn btn-warning btn-sm">Sửa</a>
+                                        <a th:href="@{/quanly/trangchu/vaitro/delete/{maVaiTro}(maVaiTro=${vt.maVaiTro})}"
+                                            class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Bạn có chắc chắn muốn xóa vai trò này?')">Xóa</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successToast = document.getElementById("successToast");
+        var errorToast = document.getElementById("errorToast");
+
+        if (successToast) {
+            var bsSuccessToast = new bootstrap.Toast(successToast);
+            bsSuccessToast.show();
+            setTimeout(() => bsSuccessToast.hide(), 3000); // Ẩn sau 3 giây
+        }
+
+        if (errorToast) {
+            var bsErrorToast = new bootstrap.Toast(errorToast);
+            bsErrorToast.show();
+            setTimeout(() => bsErrorToast.hide(), 3000); // Ẩn sau 3 giây
+        }
+    });
+</script>
+
+</html>

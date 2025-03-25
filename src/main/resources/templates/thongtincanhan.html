@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chỉnh sửa thông tin bệnh nhân</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    />
+    <style>
+      /* Reset cơ bản */
+      .all {
+        background-color: #f8f9fa;
+        font-family: Arial, sans-serif;
+      }
+
+      /* Container chính */
+      .container {
+        max-width: 900px;
+        background: white;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 14px 14px 10px rgba(0, 0, 0, 0.463);
+        margin-top: 30px;
+        margin-bottom: 30px;
+        border: 15px solid rgb(28, 190, 226);
+      }
+
+      /* Tiêu đề */
+      h2 {
+        font-weight: bold;
+        color: #007bff;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+
+      /* Form */
+      form .form-label {
+        font-weight: bold;
+        color: #333;
+      }
+
+      form .form-control {
+        border-radius: 5px;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ced4da;
+      }
+
+      form .form-control:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+      }
+
+      /* Nút */
+      .btn {
+        padding: 10px 15px;
+        font-size: 16px;
+        border-radius: 5px;
+      }
+
+      .btn-primary {
+        background-color: #007bff;
+        border: none;
+      }
+
+      .btn-primary:hover {
+        background-color: #0056b3;
+      }
+
+      .btn-secondary {
+        background-color: #6c757d;
+        border: none;
+      }
+
+      .btn-secondary:hover {
+        background-color: #5a6268;
+      }
+
+      /* Avatar & Thông tin bệnh nhân */
+      .card {
+        text-align: center;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        height: 83%;
+      }
+
+      .card img {
+        width: 80px;
+        border-radius: 50%;
+        border: 4px solid #007bff;
+        margin-top: -95px;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .card h4 {
+        font-size: 20px;
+        font-weight: bold;
+      }
+
+      .card p {
+        color: gray;
+        font-size: 14px;
+      }
+
+      /* Responsive */
+      @media (max-width: 768px) {
+        .container {
+          padding: 15px;
+        }
+
+        .btn {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+
+      .clipboard-top {
+        position: relative;
+        width: 100%;
+        height: 70px;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 10px;
+      }
+
+      .clipboard {
+        margin-top: -50px;
+        position: relative;
+        width: 450px;
+        height: 80px;
+        background: white;
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        z-index: 10;
+
+        /* Đổ bóng nhẹ bên dưới */
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      }
+
+      /* Tạo viền gradient với ::before */
+      .clipboard::before {
+        content: "";
+        position: absolute;
+        inset: 0; /* Phủ toàn bộ phần tử */
+        padding: 5px; /* Độ dày viền */
+        border-radius: inherit; /* Giữ bo tròn */
+        background: linear-gradient(
+          135deg,
+          #e0e0e0,
+          #a8a9ad,
+          #f5f5f5,
+          #a8a9ad,
+          #e0e0e0
+        );
+        -webkit-mask: linear-gradient(white 0 0) content-box,
+          linear-gradient(white 0 0);
+        mask: linear-gradient(white 0 0) content-box, linear-gradient(white 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        pointer-events: none; /* Không ảnh hưởng đến thao tác người dùng */
+      }
+
+      .clipboard-header {
+        background: linear-gradient(
+          135deg,
+          #e0e0e0,
+          #a8a9ad,
+          #f5f5f5,
+          #a8a9ad,
+          #e0e0e0
+        );
+        border-radius: 10px;
+        box-shadow: inset 0 0 10px rgba(255, 255, 255, 0.5),
+          inset 0 0 20px rgba(0, 0, 0, 0.1), 0 0 10px rgba(0, 0, 0, 0.2);
+        background-size: 400% 400%;
+        height: 20px;
+        width: 100%;
+        position: relative;
+      }
+
+      .clipboard-clip {
+        position: absolute;
+        top: -8px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 40px;
+        height: 16px;
+        background-color: #444;
+        border-radius: 4px 4px 0 0;
+        z-index: 20;
+      }
+
+      .clipboard-left {
+        width: 50px;
+        height: 50px;
+        margin-top: 30px;
+        float: left;
+
+        /* Thêm viền màu đen bên trái và bên dưới */
+        border-left: 12px solid rgb(5, 33, 126);
+        border-bottom: 12px solid rgb(5, 33, 126);
+
+        /* Bo tròn góc trên trái và dưới trái */
+        border-radius: 0 0 0 15px;
+      }
+
+      .clipboard-right {
+        width: 50px;
+        height: 50px;
+        margin-top: 30px;
+        float: right;
+
+        /* Thêm viền màu đen bên trái và bên dưới */
+        border-right: 12px solid rgb(5, 33, 126);
+        border-bottom: 12px solid rgb(5, 33, 126);
+
+        /* Bo tròn góc trên trái và dưới trái */
+        border-radius: 15px 0 0 0;
+      }
+      .Form_right {
+        border: 2px dashed silver;
+        border-radius: 7px;
+        padding: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="all">
+    <div class="container mt-5">
+      <!-- Kẹp tài liệu ở phần trên cùng -->
+      <div class="clipboard-top">
+        <div class="clipboard">
+          <div class="clipboard-header">
+            <div class="clipboard-left"></div>
+            <div class="clipboard-right"></div>
+          </div>
+          <div class="clipboard-content"></div>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-around">
+        <div class="col-md-8 d-flex justify-content-center mt-5">
+          <h2
+            class="text-center mb-5 col-md-5"
+            style="color: black; width: 100%; height: 30%; margin-top: 50px"
+          >
+            Chỉnh sửa thông tin bệnh nhân <br /><span
+              style="font-size: 20px; color: rgb(107, 105, 105)"
+              >Chi tiết thông tin
+            </span>
+          </h2>
+        </div>
+        <div class="col-md-4">
+          <div class="card text-center">
+            <div class="card-body">
+            <img
+              th:src="@{${user.hinh != null ? user.hinh : '/images/default-avatar.png'}}"
+              alt="User Image" class=""
+              />
+              <h4 th:text="${benhnhan.hoTen}">John Doe</h4>
+              <p class="text-muted">Bệnh nhân</p>
+              <p
+                class="text-muted"
+                th:text="${benhnhan.tinhTp} + ', ' + ${benhnhan.quanHuyen}"
+              ></p>
+              <p
+                class="text-muted"
+                th:text="'Năm sinh: ' + ${benhnhan.namSinh}"
+              >
+                Năm sinh: 1990
+              </p>
+              <p
+                class="text-muted"
+                th:text="'Giới tính: ' + ${benhnhan.gioiTinh}"
+              >
+                Giới tính: Nam
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div
+        th:if="${message}"
+        class="alert alert-success text-center"
+        role="alert"
+      >
+        <span th:text="${message}"></span>
+      </div>
+      <div th:if="${error}" class="alert alert-danger text-center" role="alert">
+        <span th:text="${error}"></span>
+      </div>
+
+      <!-- Form cập nhật thông tin bệnh nhân -->
+      <div class="Form_right">
+        <form
+          class="row justify-content-around"
+          th:action="@{/benhnhan/update/{id}(id=${benhnhan.maBenhNhan})}"
+          th:object="${benhnhan}"
+          method="post"
+        >
+          <div class="col-md-5">
+            <div class="mb-3">
+              <label for="hoTen" class="form-label">Họ và tên</label>
+              <input
+                type="text"
+                class="form-control"
+                id="hoTen"
+                th:field="*{hoTen}"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="namSinh" class="form-label">Năm sinh</label>
+              <input
+                type="date"
+                class="form-control"
+                id="namSinh"
+                th:field="*{namSinh}"
+                required
+              />
+            </div>
+            <div class="mb-3">
+                <label for="namSinh" class="form-label">Chọn hình </label>
+                <input
+                  type="file"
+                  class="form-control"
+                  id="namSinh"
+                  th:field="*{hinh}"
+                  required
+                />
+              </div>
+            <div class="mb-3">
+              <label for="gioiTinh" class="form-label">Giới tính</label>
+              <select class="form-control" id="gioiTinh" th:field="*{gioiTinh}">
+                <option value="Nam">Nam</option>
+                <option value="Nữ">Nữ</option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                th:field="*{email}"
+                required
+              />
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="mb-3">
+              <label for="sdt" class="form-label">Số điện thoại</label>
+              <input
+                type="text"
+                class="form-control"
+                id="sdt"
+                th:field="*{sdt}"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="tinhTp" class="form-label">Tỉnh/Thành phố</label>
+              <input
+                type="text"
+                class="form-control"
+                id="tinhTp"
+                th:field="*{tinhTp}"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="quanHuyen" class="form-label">Quận/Huyện</label>
+              <input
+                type="text"
+                class="form-control"
+                id="quanHuyen"
+                th:field="*{quanHuyen}"
+                required
+              />
+            </div>
+
+            <div class="mb-3">
+              <label for="duong" class="form-label">Đường</label>
+              <input
+                type="text"
+                class="form-control"
+                id="duong"
+                th:field="*{duong}"
+                required
+              />
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-outline-primary" style="width: 40%;">Cập nhật</button>
+        </form>
+      </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

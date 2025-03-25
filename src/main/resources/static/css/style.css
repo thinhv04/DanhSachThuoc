@@ -1,0 +1,52 @@
+Top Info Bar
+.info-bar {
+    background-color: #f8f9fa;
+    font-size: 14px;
+    color: #6c757d;
+}
+.contact-info div {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.contact-info i {
+    color: #28a745;
+}
+
+/* Navbar */
+.navbar-brand {
+    font-size: 20px;
+    font-weight: bold;
+    color: #333;
+}
+
+.logo-icon {
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+}
+
+.nav-link {
+    font-size: 16px;
+    font-weight: 500;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.nav-link:hover {
+    color: #28a745;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border: none;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 10px 20px;
+    transition: background-color 0.3s;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}

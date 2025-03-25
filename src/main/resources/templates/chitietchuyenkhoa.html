@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Chuyên Khoa</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="shortcut icon"
+        href="https://idodesign.vn/wp-content/uploads/2023/08/mau-thiet-ke-logo-nha-thuoc-dep-6.jpg"
+        type="image/x-icon">
+        <link rel="stylesheet" th:href="@{/css/header.css}">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+        }
+        .card {
+            border-radius: 12px;
+            background: #fff;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .specialty-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .text-content {
+            flex: 1;
+        }
+        .btn-success {
+            font-size: 1.1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+        .btn-success:hover {
+            background-color: #218838;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+    <div th:replace="~{header :: header}"></div>
+
+    <div class="container my-5">
+        <h2 class="text-center text-success fw-bold">Chi Tiết Chuyên Khoa</h2>
+        
+        <div class="card shadow-lg border-0 mx-auto mt-4 p-3" style="max-width: 700px; border-radius: 10px;">
+            <div class="row g-0 align-items-center">
+                <!-- Ảnh bên trái -->
+                <div class="col-md-4 text-center">
+                    <img th:src="@{'/images/imagesCK/' + ${chuyenkhoa.hinh}}" 
+                         class="img-fluid rounded"  
+                         alt="Hình chuyên khoa">
+                </div>
+                <!-- Nội dung bên phải -->
+                <div class="col-md-8 text-center">
+                    <div class="card-body">
+                        <h3 class="text-primary fw-bold mb-5" th:text="${chuyenkhoa.tenChuyenKhoa}"></h3>
+                        <p class="text-muted" th:text="${chuyenkhoa.ghiChu}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm p-4">
+                    <h4 class="text-success fw-bold"><i class="bi bi-hospital"></i> Cơ Sở Hạ Tầng Hiện Đại</h4>
+                    <p class="text-muted">
+                        Bệnh viện của chúng tôi được xây dựng với kiến trúc hiện đại, tích hợp đầy đủ các tiện ích phục vụ bệnh nhân.
+                        Mỗi chuyên khoa đều có khu vực riêng, đảm bảo không gian khám và điều trị đạt tiêu chuẩn cao nhất.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card border-0 shadow-sm p-4">
+                    <h4 class="text-success fw-bold"><i class="fa-solid fa-x-ray"></i> Trang Thiết Bị Y Tế Tối Tân</h4>
+                    <p class="text-muted">
+                        Chuyên khoa sở hữu các thiết bị y tế hiện đại như hệ thống máy siêu âm, máy xét nghiệm tự động,
+                        giúp chẩn đoán chính xác và hỗ trợ điều trị hiệu quả nhất cho bệnh nhân.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="text-center mt-4">
+            <a href="/nguoidung/chuyenkhoa" class="btn btn-success btn-lg px-5 shadow-sm">
+                <i class="bi bi-arrow-left-circle"></i> Quay Lại
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="~{footer :: footer}"></div>
+</body>
+</html>

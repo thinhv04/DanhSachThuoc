@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị hệ thống</title>
+    <link rel="shortcut icon"
+        href="https://idodesign.vn/wp-content/uploads/2023/08/mau-thiet-ke-logo-nha-thuoc-dep-6.jpg"
+        type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* Thiết lập font chữ */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 📝 Hiệu ứng hover và bóng cho FORM */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ✏️ Hiệu ứng cho Input */
+        input.form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 📋 Bảng với hiệu ứng hover */
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5 !important;
+            font-weight: bold;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 🖱️ Nút hành động */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+        .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+    </style>
+
+</head>
+
+<body>
+
+    <!-- Navbar -->
+
+    <div th:replace="~{admin/navbar :: navbar}"></div>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/menu :: menu}"></div>
+
+
+
+        <!-- Main Content -->
+        <main class="content w-100">
+            <!-- Toast thông báo -->
+
+            <h2 class="text-center mb-4">Quản Lý Dịch Vụ</h2>
+
+            <!-- Tìm kiếm -->
+            <form th:action="@{/quanly/trangchu/dichvu}" method="get" class="mb-4">
+                <input type="text" name="keyword" placeholder="Tìm kiếm theo tên" class="form-control w-50 d-inline" />
+                <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+            </form>
+            
+            <!-- Form Thêm/Sửa Dịch Vụ -->
+            <div class="card mb-4">
+                <div class="card-body">
+                    <form th:action="@{/quanly/trangchu/dichvu/luu}" method="post">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Mã Dịch Vụ:</label>
+                                <input type="text" class="form-control" name="maDichVu" th:value="${dichVu.maDichVu}" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Tên Dịch Vụ:</label>
+                                <input type="text" class="form-control" name="tenDichVu" th:value="${dichVu.tenDichVu}" required />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Mô Tả:</label>
+                                <input type="text" class="form-control" name="moTa" th:value="${dichVu.moTa}" />
+                            </div>
+                            <div class="col-md-3">
+                                <label>Giá:</label>
+                                <input type="number" class="form-control" name="gia" th:value="${dichVu.gia}" required />
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-success mt-3">Lưu</button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Danh Sách Dịch Vụ -->
+            <table class="table table-bordered">
+                <thead class="table-dark">
+                <tr>
+                    <th>Mã Dịch Vụ</th>
+                    <th>Tên Dịch Vụ</th>
+                    <th>Mô Tả</th>
+                    <th>Giá</th>
+                    <th>Hành Động</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="dv : ${danhSachDichVu}">
+                    <td th:text="${dv.maDichVu}"></td>
+                    <td th:text="${dv.tenDichVu}"></td>
+                    <td th:text="${dv.moTa}"></td>
+                    <td th:text="${dv.gia}"></td>
+                    <td>
+                        <a th:href="@{/quanly/trangchu/dichvu/sua/{id}(id=${dv.maDichVu})}" class="btn btn-warning">Sửa</a>
+                        <a th:href="@{/quanly/trangchu/dichvu/xoa/{id}(id=${dv.maDichVu})}" class="btn btn-danger" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            
+
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var successToast = document.getElementById("successToast");
+        var errorToast = document.getElementById("errorToast");
+
+        if (successToast) {
+            var bsSuccessToast = new bootstrap.Toast(successToast);
+            bsSuccessToast.show();
+            setTimeout(() => bsSuccessToast.hide(), 3000); // Ẩn sau 3 giây
+        }
+
+        if (errorToast) {
+            var bsErrorToast = new bootstrap.Toast(errorToast);
+            bsErrorToast.show();
+            setTimeout(() => bsErrorToast.hide(), 3000); // Ẩn sau 3 giây
+        }
+    });
+</script>
+
+</html>

@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quản trị hệ thống</title>
+    <link rel="shortcut icon" href="https://idodesign.vn/wp-content/uploads/2023/08/mau-thiet-ke-logo-nha-thuoc-dep-6.jpg" type="image/x-icon">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            background-color: #007bff !important;
+            position: sticky;
+    top: 0;
+    z-index: 1000;
+        }
+
+        .navbar-brand {
+            font-weight: bold;
+            color: white !important;
+        }
+
+        .btn-logout {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        .btn-logout:hover {
+            background-color: #c82333;
+        }
+
+        .sidebar {
+            width: 250px;
+            height: 100vh;
+            background: #343a40;
+            padding-top: 15px;
+            position: fixed;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .sidebar .nav-link {
+            color: white;
+            font-size: 16px;
+            padding: 12px 20px;
+            display: block;
+            border-radius: 5px;
+            transition: all 0.3s;
+        }
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background: #495057;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+            .content {
+                margin-left: 0;
+            }
+        }
+        .navbar {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <div th:replace="~{admin/navbar :: navbar}"></div>
+
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <nav class="sidebar">
+            <div th:replace="~{admin/menu :: menu}"></div>
+        </nav>
+
+        <!-- Main Content -->
+        <main class="content w-100">
+            <div class="container" th:fragment="vaitro">
+                <form>
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputPassword1" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1">
+                    </div>
+                    <div class="mb-3 form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Mã quản lý</th>
+                            <th>Tên Quản lý</th>
+                            <th>Email</th>
+                            <th>Số điện thoại</th>
+                            <th>Căn cước công dân</th>
+                            <th>Vai Trò</th>
+                            <th>Hình</th>
+                            <th>Địa Chỉ</th>
+                            <th>Hành Động</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="vt : ${quanly}">
+                            <td th:text="${vt.maQuanLy}"></td>
+                            <td th:text="${vt.hoTen}"></td>
+                            <td th:text="${vt.email}"></td>
+                            <td th:text="${vt.sdt}"></td>
+                            <td th:text="${vt.cccd}"></td>
+                            <td th:text="${vt.vaiTro.tenVaiTro}"></td>
+                            <td th:text="${vt.hinh}"></td>
+                            <td th:text="${vt.diaChi}"></td>
+                            <!-- <td>
+                                <button ng-click="editVaiTro(vt)">Sửa</button>
+                                <button ng-click="deleteVaiTro(vt.id)">Xóa</button>
+                            </td> -->
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>

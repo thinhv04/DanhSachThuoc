@@ -1,0 +1,85 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* 🌟 Navbar với màu gradient */
+.navbar {
+    background: linear-gradient(135deg, #0062E6, #33AEFF);
+    padding: 12px 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.navbar-brand {
+    font-weight: bold;
+    color: white !important;
+    font-size: 20px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+/* 🔘 Nút đăng xuất chuyên nghiệp */
+.btn-logout {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 6px 14px;
+    font-weight: bold;
+    border-radius: 20px;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-logout:hover {
+    background: white;
+    color: #0062E6;
+    transform: scale(1.1);
+}
+
+/* 🏠 Sidebar */
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background: #343a40;
+    padding-top: 15px;
+    position: fixed;
+    transition: all 0.3s ease-in-out;
+}
+
+.sidebar .nav-link {
+    color: white;
+    font-size: 16px;
+    padding: 12px 20px;
+    display: block;
+    border-radius: 5px;
+    transition: all 0.3s;
+}
+
+.sidebar .nav-link:hover,
+.sidebar .nav-link.active {
+    background: #495057;
+}
+
+/* 👤 Avatar có hiệu ứng viền và zoom */
+.avatar-link {
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid white;
+    transition: all 0.3s ease-in-out;
+}
+
+.avatar:hover {
+    transform: scale(1.15);
+    border-color: #FFD700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
+}
+
+

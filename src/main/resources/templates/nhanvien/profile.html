@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thông Tin Cá Nhân</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center">Thông Tin Cá Nhân</h2>
+        
+        <!-- Hiển thị lỗi nếu có -->
+        <div class="alert alert-danger" th:if="${error}" th:text="${error}"></div>
+
+        <!-- Kiểm tra nếu có nhân viên thì hiển thị thông tin -->
+        <div class="card mx-auto" style="max-width: 600px;" th:if="${nhanVien}">
+            <div class="card-body">
+                <table class="table table-bordered mt-3">
+                    <tr>
+                        <th>Mã Nhân Viên:</th>
+                        <td th:text="${nhanVien.maNhanVien}"></td>
+                    </tr>
+                    <tr>
+                        <th>Họ Tên:</th>
+                        <td th:text="${nhanVien.hoTen}"></td>
+                    </tr>
+                    <tr>
+                        <th>Giới Tính:</th>
+                        <td th:text="${nhanVien.gioiTinh}"></td>
+                    </tr>
+                    <tr>
+                        <th>Địa Chỉ:</th>
+                        <td th:text="${nhanVien.diaChi}"></td>
+                    </tr>
+                    <tr>
+                        <th>Số Điện Thoại:</th>
+                        <td th:text="${nhanVien.sdt}"></td>
+                    </tr>
+                    <tr>
+                        <th>CCCD:</th>
+                        <td th:text="${nhanVien.cccd}"></td>
+                    </tr>
+                    <tr>
+                        <th>Email:</th>
+                        <td th:text="${nhanVien.email}"></td>
+                    </tr>
+                    <tr>
+                        <th>Vai Trò:</th>
+                        <td th:text="${nhanVien.vaiTro.tenVaiTro}"></td>
+                    </tr>
+                    <tr>
+                        <th>Ghi Chú:</th>
+                        <td th:text="${nhanVien.ghiChu}"></td>
+                    </tr>
+                </table>
+                <div class="text-center">
+                    <a href="/nhanvien/editProfile" class="btn btn-primary">Chỉnh Sửa</a>
+                    <a href="/nhanvien/trangchu" class="btn btn-secondary">Quay Lại</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -20,6 +20,7 @@ import java.util.Optional;
 public class NhapThuocService {
     @Autowired
     private ThuocDao thuocRepository;
+    
     @Autowired
     private NhapThuocDao nhapThuocRepository;
     
@@ -27,31 +28,44 @@ public class NhapThuocService {
     private KhoThuocDao khoThuocRepository;
 
     @Autowired
-    private NhanVienDao nhanVienRepository;
+    private NhanVienDao nhanVienDao;
     
     @Transactional
     public NhapThuoc themNhapThuoc(NhapThuoc nhapThuoc) {
-        System.out.println("📌 Dữ liệu nhập thuốc: " + nhapThuoc);
-        System.out.println("🔍 Mã nhân viên nhận từ form: " + nhapThuoc.getNhanVien().getMaNhanVien());
+        System.out.println("📌 Dữ liệu nhập thuốc nhận được: " + nhapThuoc);
 
-
-        // 🔍 Kiểm tra nhân viên có tồn tại không
+        // 🔹 Kiểm tra dữ liệu nhân viên từ request
         if (nhapThuoc.getNhanVien() == null || nhapThuoc.getNhanVien().getMaNhanVien() == null) {
-            throw new RuntimeException("⚠ Không tìm thấy thông tin nhân viên!");
+            throw new RuntimeException("⚠ Không tìm thấy thông tin nhân viên từ request!");
         }
 
-        NhanVien nhanVien = nhanVienRepository.findById(nhapThuoc.getNhanVien().getMaNhanVien())
-            .orElseThrow(() -> new RuntimeException("⚠ Nhân viên không tồn tại trong hệ thống!"));
+        // 🔹 Chuẩn hóa mã nhân viên (loại bỏ khoảng trắng thừa)
+        String maNV = nhapThuoc.getNhanVien().getMaNhanVien().trim();
+        System.out.println("🔍 Mã nhân viên từ request (đã chuẩn hóa): " + maNV);
 
-        nhapThuoc.setNhanVien(nhanVien); // Gán nhân viên tìm thấy vào NhapThuoc
+        // 🔹 Kiểm tra xem nhân viên có tồn tại trong DB không
+        Optional<NhanVien> nhanVienOpt = nhanVienDao.findByMaNhanVien(maNV);
+        if (nhanVienOpt.isEmpty()) {
+            throw new RuntimeException("⚠ Nhân viên không tồn tại trong hệ thống! Mã: " + maNV);
+        }
 
-        // 🔍 Kiểm tra thuốc có tồn tại không
+        // ✅ Nhân viên hợp lệ
+        NhanVien nhanVien = nhanVienOpt.get();
+        System.out.println("✅ Nhân viên hợp lệ: " + nhanVien.getHoTen());
+
+        // 🔹 Gán nhân viên tìm thấy vào đối tượng nhập thuốc
+        nhapThuoc.setNhanVien(nhanVien);
+
+        // 🔹 Kiểm tra thuốc có tồn tại không
         Optional<Thuoc> optionalThuoc = thuocRepository.findById(nhapThuoc.getThuoc().getMaThuoc());
         if (optionalThuoc.isEmpty()) {
             throw new RuntimeException("⚠ Thuốc không tồn tại! Hãy thêm thuốc trước khi nhập.");
         }
 
-        nhapThuoc.setThuoc(optionalThuoc.get());
+        // ✅ Thuốc hợp lệ
+        Thuoc thuoc = optionalThuoc.get();
+        nhapThuoc.setThuoc(thuoc);
+        System.out.println("✅ Thuốc hợp lệ: " + thuoc.getTenThuoc());
 
         // 🔥 Lưu vào bảng NHAPTHUOC
         NhapThuoc savedNhapThuoc = nhapThuocRepository.save(nhapThuoc);
@@ -74,15 +88,14 @@ public class NhapThuocService {
             System.out.println("🆕 Thêm thuốc vào kho: " + khoThuoc.getSoLuongHienCo());
         }
 
+        // ✅ Lưu kho thuốc
         khoThuocRepository.save(khoThuoc);
         return savedNhapThuoc;
     }
-
 
     public List<NhapThuoc> getAllNhapThuoc() {
         List<NhapThuoc> list = nhapThuocRepository.findAll();
         System.out.println("📌 Danh sách nhập thuốc: " + list);
         return list;
     }
-
 }

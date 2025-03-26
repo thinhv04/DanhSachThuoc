@@ -37,29 +37,46 @@ public class NhapThuocController {
     @GetMapping("/form")
     public String hienThiFormNhapThuoc(Model model) {
         // Lấy thông tin nhân viên đang đăng nhập
-    NhanVien nhanVienDangNhap = nhanVienService.getNhanVienDangNhap();
-    model.addAttribute("nhanVien", nhanVienDangNhap);
+        NhanVien nhanVienDangNhap = nhanVienService.getNhanVienDangNhap();
+        System.out.println("📌 Nhân viên đăng nhập: " + nhanVienDangNhap);
 
-    // Lấy danh sách nhập thuốc
-    List<NhapThuoc> danhSachNhapThuoc = nhapThuocService.getAllNhapThuoc();
-    System.out.println("📌 Dữ liệu hiển thị trên giao diện: " + danhSachNhapThuoc);
-    model.addAttribute("nhapThuocList", danhSachNhapThuoc);
+        if (nhanVienDangNhap == null) {
+            model.addAttribute("errorMessage", "⚠ Không tìm thấy nhân viên đăng nhập!");
+            return "redirect:/nhanvien/login"; // Chuyển hướng về trang đăng nhập nếu không có nhân viên
+        }
 
-    model.addAttribute("nhapThuoc", new NhapThuoc());
-    model.addAttribute("khoThuocList", khoThuocService.getAllKhoThuoc());
-    model.addAttribute("thuocList", thuocRepository.findAll());
+        model.addAttribute("nhanVien", nhanVienDangNhap);
+        model.addAttribute("nhapThuoc", new NhapThuoc());
+        model.addAttribute("thuocList", thuocRepository.findAll());
+        model.addAttribute("nhapThuocList", nhapThuocService.getAllNhapThuoc());
 
-    return "nhanvien/nhapthuoc";
+        return "nhanvien/nhapthuoc";
     }
 
     @PostMapping("/them")
-    public String themNhapThuoc(@ModelAttribute("nhapThuoc") NhapThuoc nhapThuoc, RedirectAttributes redirectAttributes) {
-        try {
-            nhapThuocService.themNhapThuoc(nhapThuoc);
-            redirectAttributes.addFlashAttribute("successMessage", "Nhập thuốc thành công!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi: " + e.getMessage());
-        }
-        return "redirect:/nhanvien/trangchu/nhapthuoc/form"; // 🔥 Quay lại form để hiển thị danh sách
+public String themNhapThuoc(@ModelAttribute("nhapThuoc") NhapThuoc nhapThuoc, RedirectAttributes redirectAttributes) {
+    // Lấy nhân viên đang đăng nhập từ session
+    NhanVien nhanVienDangNhap = nhanVienService.getNhanVienDangNhap();
+
+    if (nhanVienDangNhap == null) {
+        redirectAttributes.addFlashAttribute("errorMessage", "⚠ Không tìm thấy thông tin nhân viên đăng nhập!");
+        return "redirect:/nhanvien/trangchu/nhapthuoc/form";
     }
+
+    // Gán nhân viên vào NhapThuoc
+    nhapThuoc.setNhanVien(nhanVienDangNhap);
+
+    System.out.println("📌 Dữ liệu nhận được sau khi gán nhân viên: " + nhapThuoc);
+
+    try {
+        nhapThuocService.themNhapThuoc(nhapThuoc);
+        redirectAttributes.addFlashAttribute("successMessage", "✅ Nhập thuốc thành công!");
+    } catch (Exception e) {
+        redirectAttributes.addFlashAttribute("errorMessage", "❌ Lỗi: " + e.getMessage());
+    }
+
+    return "redirect:/nhanvien/trangchu/nhapthuoc/form";
+}
+
+
 }

@@ -15,14 +15,14 @@
             <input type="hidden" th:field="*{nhanVien.maNhanVien}">
             <div class="mb-3">
                 <label class="form-label">Mã Nhân Viên</label>
-                <input type="text" class="form-control" th:value="${nhanVien != null ? nhanVien.maNhanVien : ''}" readonly>
+                <input type="text" class="form-control" th:value="${nhanVien != null ? nhanVien.maNhanVien + ' - ' + nhanVien.hoTen : ''}" readonly>
             </div>
 
             <!-- Họ tên nhân viên -->
-            <div class="mb-3">
+            <!-- <div class="mb-3">
                 <label class="form-label">Họ Tên Nhân Viên</label>
                 <input type="text" class="form-control" th:value="${nhanVien != null ? nhanVien.hoTen : ''}" readonly>
-            </div>
+            </div> -->
 
             <div class="row">
                 <div class="col-md-4">

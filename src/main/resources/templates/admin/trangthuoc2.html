@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Danh Sách Thuốcqqq</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="shortcut icon"
+    href="https://idodesign.vn/wp-content/uploads/2023/08/mau-thiet-ke-logo-nha-thuoc-dep-6.jpg"
+    type="image/x-icon">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/admin.css">
+    <style>
+        /* Thiết lập font chữ */
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 250px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 📝 Hiệu ứng hover và bóng cho FORM */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ✏️ Hiệu ứng cho Input */
+        input.form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 📋 Bảng với hiệu ứng hover */
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5 !important;
+            font-weight: bold;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 🖱️ Nút hành động */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    
+    </style>
+    <script>
+        function editThuoc(maThuoc, tenThuoc, moTa, donVi, giaThuoc, hanSuDung) {
+            document.getElementById('maThuoc').value = maThuoc;
+            document.getElementById('tenThuoc').value = tenThuoc;
+            document.getElementById('moTa').value = moTa;
+            document.getElementById('donVi').value = donVi;
+            document.getElementById('giaThuoc').value = giaThuoc;
+            document.getElementById('hanSuDung').value = hanSuDung;
+            document.getElementById('formTitle').innerText = 'Cập Nhật Thuốc';
+            document.getElementById('thuocForm').action = '/thuoc/capnhat/' + maThuoc;
+        }
+    </script>
+</head>
+<body>
+    <!-- Navbar -->
+
+    <div th:replace="~{admin/navbar :: navbar}"></div>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div th:replace="~{admin/menu :: menu}"></div>
+
+
+
+        <!-- Main Content -->
+        <main class="content w-100">
+            <!-- Toast thông báo -->
+
+           
+    <div class="header">Quản Lý Thuốc</div>
+
+    <div class="search-container">
+        <form action="/quanly/trangchu/thuoc/timkiem" method="get" class="container d-flex">
+            <input type="text" name="keyword" class="form-control me-2" placeholder="Nhập mã hoặc tên thuốc..." th:value="${keyword}">
+            <button type="submit" class="btn btn-primary">Tìm</button>
+        </form>
+    </div>
+
+    <div class="content">
+        <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+        <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
+
+        <h3 id="formTitle" class="mt-4">Thêm Thuốc</h3>
+        <form id="thuocForm" action="/quanly/trangchu/thuoc/them" method="post" class="mb-4">
+            <div class="row g-3">
+                <div class="col-md-4"><input type="text" id="maThuoc" name="maThuoc" class="form-control" placeholder="Mã Thuốc" required></div>
+                <div class="col-md-4"><input type="text" id="tenThuoc" name="tenThuoc" class="form-control" placeholder="Tên Thuốc" required></div>
+                <div class="col-md-4"><input type="text" id="moTa" name="moTa" class="form-control" placeholder="Mô Tả" required></div>
+                <div class="col-md-3"><input type="text" id="donVi" name="donVi" class="form-control" placeholder="Đơn Vị" required></div>
+                <div class="col-md-3"><input type="number" step="0.01" id="giaThuoc" name="giaThuoc" class="form-control" placeholder="Giá Thuốc" required></div>
+                <div class="col-md-3"><input type="date" id="hanSuDung" name="hanSuDung" class="form-control" required></div>
+                <div class="col-md-3 d-grid"><button type="submit" class="btn btn-success">Lưu</button></div>
+            </div>
+        </form>
+
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Mã Thuốc</th>
+                    <th>Tên Thuốc</th>
+                    <th>Mô Tả</th>
+                    <th>Đơn Vị</th>
+                    <th>Giá</th>
+                    <th>Hạn Sử Dụng</th>
+                    <th>Hành Động</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="thuoc : ${thuocs}">
+                    <td th:text="${thuoc.maThuoc}"></td>
+                    <td th:text="${thuoc.tenThuoc}"></td>
+                    <td th:text="${thuoc.moTa}"></td>
+                    <td th:text="${thuoc.donVi}"></td>
+                    <td th:text="${thuoc.giaThuoc}"></td>
+                    <td th:text="${thuoc.hanSuDung}"></td>
+                    <td>
+                        <button class="btn btn-warning btn-sm" 
+                            th:attr="onclick='editThuoc(\'' + ${thuoc.maThuoc} + '\', \'' + ${thuoc.tenThuoc} + '\', \'' + ${thuoc.moTa} + '\', \'' + ${thuoc.donVi} + '\', ' + ${thuoc.giaThuoc} + ', \'' + ${thuoc.hanSuDung} + '\')'">
+                            Cập nhật
+                        </button>
+                        <form th:action="@{/quanly/trangchu/thuoc/xoa/{maThuoc}(maThuoc=${thuoc.maThuoc})}" method="post" class="d-inline" onsubmit="return confirm('Bạn có chắc chắn muốn xóa?');">
+                            <button type="submit" class="btn btn-danger btn-sm">Xóa</button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        </main>
+    </div>
+
+</body>
+</html>

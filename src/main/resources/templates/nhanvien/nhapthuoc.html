@@ -4,108 +4,155 @@
     <meta charset="UTF-8">
     <title>Nhập Thuốc</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* Tăng thẩm mỹ cho form nhập thuốc */
+        .form-container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-container:hover {
+            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Hiệu ứng input */
+        .form-control, .form-select {
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+        }
+
+        /* Nút bấm hiệu ứng */
+        .btn-custom {
+            font-weight: bold;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        .btn-custom:hover {
+            transform: scale(1.05);
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Căn chỉnh bảng dữ liệu */
+        table th {
+            text-align: center;
+            background: #f1f3f5;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2 class="text-center">Nhập Thuốc</h2>
 
-        <!-- Form nhập thuốc -->
-        <form th:action="@{/nhanvien/trangchu/nhapthuoc/them}" method="post" th:object="${nhapThuoc}" class="mb-4">
-            <!-- Mã nhân viên (ẩn hoặc hiển thị readonly) -->
+<div class="container mt-4">
+    <!-- Tiêu đề -->
+    <h2 class="text-center my-4">
+        <a href="/nhanvien/trangchu" class="text-decoration-none text-dark fw-bold">Nhập Thuốc</a>
+    </h2>
+
+    <!-- Nút quay lại -->
+    <div class="mb-3">
+        <a href="/nhanvien/trangchu" class="btn btn-outline-dark btn-sm">⬅️ Quay lại</a>
+    </div>
+
+    <!-- Form nhập thuốc -->
+    <div class="form-container">
+        <form th:action="@{/nhanvien/trangchu/nhapthuoc/them}" method="post" th:object="${nhapThuoc}">
             <input type="hidden" th:field="*{nhanVien.maNhanVien}">
+
             <div class="mb-3">
-                <label class="form-label">Mã Nhân Viên</label>
+                <label class="form-label fw-bold">Mã Nhân Viên</label>
                 <input type="text" class="form-control" th:value="${nhanVien != null ? nhanVien.maNhanVien + ' - ' + nhanVien.hoTen : ''}" readonly>
             </div>
 
-            <!-- Họ tên nhân viên -->
-            <!-- <div class="mb-3">
-                <label class="form-label">Họ Tên Nhân Viên</label>
-                <input type="text" class="form-control" th:value="${nhanVien != null ? nhanVien.hoTen : ''}" readonly>
-            </div> -->
-
             <div class="row">
-                <div class="col-md-4">
-                    <label class="form-label">Chọn Mã Thuốc</label>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Chọn Mã Thuốc</label>
                     <select class="form-select" th:field="*{thuoc.maThuoc}" required>
                         <option value="">-- Chọn thuốc --</option>
                         <option th:each="thuoc : ${thuocList}" th:value="${thuoc.maThuoc}" th:text="${thuoc.maThuoc + ' - ' + thuoc.tenThuoc}"></option>
                     </select>
                 </div>
-                <div class="col-md-4">
-                    <label class="form-label">Số Lượng Nhập</label>
+                <div class="col-md-6">
+                    <label class="form-label fw-bold">Số Lượng Nhập</label>
                     <input type="number" class="form-control" th:field="*{soLuongNhap}" required min="1">
-                </div>
-                <div class="col-md-4">
-                    <label class="form-label">Ngày Nhập</label>
-                    <input type="date" class="form-control" th:field="*{ngayNhap}" th:value="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
                 </div>
             </div>
 
             <div class="row mt-2">
                 <div class="col-md-6">
-                    <label class="form-label">Nhà Cung Cấp</label>
-                    <input type="text" class="form-control" th:field="*{nhaCungCap}" required>
+                    <label class="form-label fw-bold">Ngày Nhập</label>
+                    <input type="date" class="form-control" th:field="*{ngayNhap}" required>
                 </div>
                 <div class="col-md-6">
-                    <label class="form-label">Ghi Chú</label>
-                    <textarea class="form-control" th:field="*{ghiChu}"></textarea>
+                    <label class="form-label fw-bold">Nhà Cung Cấp</label>
+                    <input type="text" class="form-control" th:field="*{nhaCungCap}" required>
                 </div>
             </div>
 
-            <button type="submit" class="btn btn-success mt-3">Nhập Thuốc</button>
-
-            <div class="mt-3">
-                <p>Nếu chưa có thuốc bạn cần, <a href="/thuoc">thêm thuốc mới</a>.</p>
-            </div>
-            <div class="mt-3">
-                <p><a href="/kho-thuoc/list" class="btn btn-primary mt-3">Xem Kho Thuốc</a>.</p>
+            <div class="mb-3 mt-2">
+                <label class="form-label fw-bold">Ghi Chú</label>
+                <textarea class="form-control" th:field="*{ghiChu}" rows="2"></textarea>
             </div>
 
-            <!-- Thông báo thành công -->
-            <div th:if="${successMessage}" class="alert alert-success">
+            <button type="submit" class="btn btn-success btn-custom w-100">💾 Nhập Thuốc</button>
+
+            <!-- Liên kết điều hướng -->
+            <div class="d-flex justify-content-between mt-3">
+                <p class="mb-0"><a href="/thuoc" class="text-decoration-none">➕ Thêm thuốc mới</a></p>
+                <a href="/nhanvien/trangchu/khothuoc/list" class="btn btn-primary btn-sm">📦 Xem Kho Thuốc</a>
+            </div>
+
+            <!-- Thông báo -->
+            <div th:if="${successMessage}" class="alert alert-success mt-3">
                 <span th:text="${successMessage}"></span>
             </div>
-
-            <!-- Thông báo lỗi -->
-            <div th:if="${errorMessage}" class="alert alert-danger">
+            <div th:if="${errorMessage}" class="alert alert-danger mt-3">
                 <span th:text="${errorMessage}"></span>
             </div>
-
         </form>
-
-
-
-        <!-- Danh sách nhập thuốc -->
-        <h3 class="text-center">Danh Sách Nhập Thuốc</h3>
-        <table class="table table-bordered">
-            <thead>
-                <tr>
-                    <th>Mã Nhập</th>
-                    <th>Mã Nhân Viên</th>
-                    <th>Mã Thuốc</th>
-                    <th>Số Lượng Nhập</th>
-                    <th>Ngày Nhập</th>
-                    <th>Nhà Cung Cấp</th>
-                    <th>Ghi Chú</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="nhap : ${nhapThuocList}">
-                    <td th:text="${nhap.maNhapThuoc}"></td>
-                    <td th:text="${nhap.nhanVien != null ? nhap.nhanVien.maNhanVien : 'N/A'}"></td>
-                    <td th:text="${nhap.thuoc != null ? nhap.thuoc.maThuoc : 'N/A'}"></td>
-                    <td th:text="${nhap.soLuongNhap}"></td>
-                    <td th:text="${#dates.format(nhap.ngayNhap, 'dd/MM/yyyy')}"></td>
-                    <td th:text="${nhap.nhaCungCap}"></td>
-                    <td th:text="${nhap.ghiChu}"></td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(nhapThuocList)}">
-                    <td colspan="7" class="text-center text-danger">Chưa có dữ liệu nhập thuốc!</td>
-                </tr>
-            </tbody>            
-        </table>
-
     </div>
+
+    <!-- Danh sách nhập thuốc -->
+    <h3 class="text-center mt-4 text-primary">📋 Danh Sách Nhập Thuốc</h3>
+    <table class="table table-bordered mt-3">
+        <thead>
+            <tr>
+                <th>Mã Nhập</th>
+                <th>Nhân Viên</th>
+                <th>Thuốc</th>
+                <th>Số Lượng</th>
+                <th>Ngày Nhập</th>
+                <th>Nhà Cung Cấp</th>
+                <th>Ghi Chú</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="nhap : ${nhapThuocList}">
+                <td th:text="${nhap.maNhapThuoc}"></td>
+                <td th:text="${nhap.nhanVien != null ? nhap.nhanVien.maNhanVien : 'N/A'}"></td>
+                <td th:text="${nhap.thuoc != null ? nhap.thuoc.maThuoc : 'N/A'}"></td>
+                <td class="text-center fw-bold" th:text="${nhap.soLuongNhap}"></td>
+                <td th:text="${#temporals.format(nhap.ngayNhap, 'dd/MM/yyyy')}"></td>
+                <td th:text="${nhap.nhaCungCap}"></td>
+                <td th:text="${nhap.ghiChu}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(nhapThuocList)}">
+                <td colspan="7" class="text-center text-danger">🚫 Chưa có dữ liệu nhập thuốc!</td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
 </body>
 </html>

@@ -20,12 +20,12 @@ public class NhanVienService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    // Lấy danh sách tất cả nhân viên
+    // Lấy tất cả nhân viên
     public List<NhanVien> getAllNhanVien() {
         return nhanVienDao.findAll();
     }
 
-    // Lưu nhân viên mới (mã hóa mật khẩu trước khi lưu)
+    // Lưu nhân viên
     public void save(NhanVien nhanVien) {
         nhanVien.setMatKhau(passwordEncoder.encode(nhanVien.getMatKhau()));
         nhanVienDao.save(nhanVien);
@@ -41,7 +41,7 @@ public class NhanVienService {
         nhanVienDao.deleteById(maNhanVien);
     }
 
-    // Kiểm tra nhân viên có tồn tại không
+    // Kiểm tra xem nhân viên có tồn tại không theo ID
     public boolean existsById(String maNhanVien) {
         return nhanVienDao.existsByMaNhanVien(maNhanVien);
     }
@@ -67,11 +67,22 @@ public class NhanVienService {
         return nhanVienDao.findByEmail(email).orElse(null);
     }
 
-    // **Lấy thông tin nhân viên đang đăng nhập**
+     // **Lấy thông tin nhân viên đang đăng nhập**
     public NhanVien getNhanVienDangNhap() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
             return getNhanVienByEmail(authentication.getName());
+        }
+        return null;
+    }
+    
+    public NhanVien authenticate(String username, String password) {
+        Optional<NhanVien> nhanVienOpt = nhanVienDao.findByEmail(username);
+        if (nhanVienOpt.isPresent()) {
+            NhanVien nhanVien = nhanVienOpt.get();
+            if (passwordEncoder.matches(password, nhanVien.getMatKhau())) {
+                return nhanVien;
+            }
         }
         return null;
     }

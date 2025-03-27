@@ -60,7 +60,7 @@ public class LichKhamController {
             String email = oauth2User.getAttribute("email");
             benhNhan = benhNhanService.findByEmail(email);
         }
-
+        session.setAttribute("loggedInUser", benhNhan);
         model.addAttribute("user", benhNhan);
 
         if (maChuyenKhoa != null && !maChuyenKhoa.isEmpty()) {

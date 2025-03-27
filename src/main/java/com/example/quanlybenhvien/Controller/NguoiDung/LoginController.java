@@ -45,43 +45,52 @@ public class LoginController {
     public String login(Model model) {
         return "login";
     }
-
     @PostMapping("/login")
-    public String login_1(@RequestParam("email") String email,
-            @RequestParam("matKhau") String matKhau,
-            HttpSession session,
-            HttpServletRequest request,
-            Model model) {
+    public String login(@RequestParam("email") String email,
+                        @RequestParam("matKhau") String matKhau,
+                        HttpSession session,
+                        HttpServletRequest request,
+                        Model model) {
+        // Tìm user theo email
         BenhNhan user = benhNhanDao.findByEmail(email).orElse(null);
-        if (user != null) {
-            BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-            if (passwordEncoder.matches(matKhau, user.getMatKhau())) {
-                // 1. Lưu vào session
-                session.setAttribute("user", user);
-
-                // 2. Tạo Authentication thủ công cho Spring Security
-                List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
-                UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(user.getEmail(),
-                        null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(auth);
-
-                // 3. (Optional) Update HttpSession security context nếu cần
-                request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
-                        SecurityContextHolder.getContext());
-                // ✅ In thông báo khi đăng nhập thành công
-                System.out.println("Bắt đầu kiểm tra đăng nhập với email: " + email);
-
-                System.out.println("Đăng nhập thành công: " + user.getEmail());
-                return "redirect:/index";
-            } else {
-                model.addAttribute("error", "Mật khẩu không đúng.");
-                return "login";
-            }
-        } else {
+    
+        // Kiểm tra email tồn tại hay không
+        if (user == null) {
             model.addAttribute("error", "Email không tồn tại.");
             return "login";
         }
+    
+        // Kiểm tra mật khẩu với BCrypt
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        if (!passwordEncoder.matches(matKhau, user.getMatKhau())) {
+            model.addAttribute("error", "Mật khẩu không đúng.");
+            return "login";
+        }
+    
+        // ✅ Đăng nhập thành công:
+        // Lưu user vào session (thống nhất sử dụng loggedInUser)
+        session.setAttribute("loggedInUser", user);
+        model.addAttribute("user", user);
+    
+        // Setup Authentication thủ công cho Spring Security
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("USER"));
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
+                user.getEmail(), null, authorities);
+        SecurityContextHolder.getContext().setAuthentication(authToken);
+    
+        // Ghi security context vào HttpSession để Spring Security nhận diện
+        request.getSession().setAttribute(
+                HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY,
+                SecurityContextHolder.getContext()
+        );
+    
+        // Debug log
+        System.out.println("Đăng nhập thành công cho user: " + user.getEmail());
+    
+        // Redirect về trang chủ
+        return "redirect:/index";
     }
+    
 
     @GetMapping("/loginSuccess")
     public String loginSuccess(@AuthenticationPrincipal OAuth2User principal, Model model, HttpSession session) {
@@ -155,5 +164,8 @@ public class LoginController {
 
         return "redirect:/login?registerSuccess=true";
     }
-
+    @ModelAttribute("user")
+    public BenhNhan getCurrentUser(HttpSession session) {
+        return (BenhNhan) session.getAttribute("user");
+    }
 }

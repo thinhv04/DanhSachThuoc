@@ -12,11 +12,15 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "NHAPTHUOC")
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class NhapThuoc {
@@ -44,4 +48,9 @@ public class NhapThuoc {
 
     @Column(name = "ghi_chu", length = 255)
     private String ghiChu; // Ghi chú (nếu có)
+
+    @Override
+    public String toString() {
+        return "NhapThuoc(maNhapThuoc=" + maNhapThuoc + ")";
+    }
 }

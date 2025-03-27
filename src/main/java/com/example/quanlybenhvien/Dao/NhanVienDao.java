@@ -25,7 +25,6 @@ public interface NhanVienDao extends JpaRepository<NhanVien, String> {
 
     Optional<NhanVien> findByEmail(String email);
 
-    @Query("SELECT n FROM NhanVien n WHERE TRIM(n.maNhanVien) = TRIM(:maNhanVien)")
+      @Query("SELECT n FROM NhanVien n WHERE TRIM(n.maNhanVien) = TRIM(:maNhanVien)")
     Optional<NhanVien> findByMaNhanVien(@Param("maNhanVien") String maNhanVien);
-    
 }

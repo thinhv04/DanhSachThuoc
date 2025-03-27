@@ -22,7 +22,7 @@ public class AdminSecurityConfig {
     @Order(1)
     public SecurityFilterChain nhanvienSecurityFilterChain(HttpSecurity http) throws Exception {
         http
-                .securityMatcher("/nhanvien/**", "/js/**") // Áp dụng bảo mật cho "/bacsi/**"
+                .securityMatcher("/nhanvien/**") // Áp dụng bảo mật cho "/bacsi/**"
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/nhanvien/login", "/nhanvien/logout").permitAll()
                         .requestMatchers("/nhanvien/**", "/api/**").hasAnyRole("VT03", "VT00") // nhanvien và quản lý

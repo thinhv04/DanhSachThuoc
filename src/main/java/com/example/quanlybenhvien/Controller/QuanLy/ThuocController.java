@@ -60,13 +60,13 @@ public class ThuocController {
     @GetMapping("/thuoc")
     public String danhsach(Model model) {
         model.addAttribute("thuocs", thuocService.timkiemthuoc(""));
-        return "admin/trangthuoc2";
+        return "admin/themthuoc";
     }
 
     @GetMapping("/thuoc/them")
     public String giaodienthem(Model model) {
         model.addAttribute("thuoc", new Thuoc());
-        return "admin/trangthuoc2";
+        return "admin/themthuoc";
     }
 
     @PostMapping("/thuoc/them")

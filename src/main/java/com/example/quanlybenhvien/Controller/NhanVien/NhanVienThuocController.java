@@ -25,13 +25,13 @@ public class NhanVienThuocController {
     @GetMapping
     public String danhsach(Model model) {
         model.addAttribute("thuocs", thuocService.timkiemthuoc(""));
-        return "nhanvien/themthuoc02";
+        return "nhanvien/trangthuoc";
     }
 
     @GetMapping("/them")
     public String giaodienthem(Model model) {
         model.addAttribute("thuoc", new Thuoc());
-        return "nhanvien/themthuoc";
+        return "nhanvien/trangthuoc";
     }
 
     @PostMapping("/them")
@@ -46,7 +46,7 @@ public class NhanVienThuocController {
         List<Thuoc> ketQua = thuocService.timkiemthuoc(keyword);
         model.addAttribute("thuocs", ketQua);
         model.addAttribute("keyword", keyword); // Giữ lại từ khóa trên giao diện
-        return "nhanvien/themthuoc";
+        return "nhanvien/trangthuoc";
     }
 
 

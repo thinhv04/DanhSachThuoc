@@ -8,18 +8,18 @@
 <body>
     <div class="container mt-4">
         <h2 class="text-center my-4">
-            <a href="/nhanvien/trangchu" class="text-decoration-none text-dark">📦 Danh Sách Kho Thuốc</a>
+            <a href="/quanly/trangchu/trangthuoc" class="text-decoration-none text-dark">📦 Danh Sách Kho Thuốc</a>
         </h2>
 
         <!-- Nút quay lại nhập thuốc -->
         <div class="d-flex justify-content-start mb-3">
-            <a href="/nhanvien/trangchu/nhapthuoc/form" class="btn btn-secondary">
+            <a href="/quanly/trangchu/trangthuoc/nhapthuoc" class="btn btn-secondary">
                 ⬅️ Quay lại Nhập Thuốc
             </a>
         </div>
 
         <!-- Form tìm kiếm -->
-        <form method="get" action="/nhanvien/trangchu/khothuoc/list" class="d-flex mb-3">
+        <form method="get" action="/quanly/trangchu/trangthuoc/khothuoc/list" class="d-flex mb-3">
             <input type="text" name="keyword" th:value="${keyword}" placeholder="🔎 Nhập mã hoặc tên thuốc..." class="form-control w-50 me-2">
             <button type="submit" class="btn btn-primary">Tìm kiếm</button>
         </form>

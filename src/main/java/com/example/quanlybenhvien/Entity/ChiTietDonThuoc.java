@@ -27,7 +27,7 @@ public class ChiTietDonThuoc {
     @Column(name = "ma_thuoc", length = 20, nullable = false)
     private String maThuoc;
 
-    @Column(name = "soluong", nullable = false)
+    @Column(name = "so_luong", nullable = false)
     private Integer soLuong;
 
     @Column(name = "lieu_luong", nullable = false)

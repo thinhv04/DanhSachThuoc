@@ -26,4 +26,6 @@ public class DichVu {
 
     @Column(nullable = false, name = "gia")
     private Double gia;
+    
+    
 }

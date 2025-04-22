@@ -1,4 +1,5 @@
 package com.example.quanlybenhvien.Entity;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -25,4 +26,3 @@ public class ChiTietDichVu {
     @Column(name = "soluong", nullable = false)
     private Integer soLuong;
 }
-

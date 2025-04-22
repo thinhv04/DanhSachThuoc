@@ -34,4 +34,12 @@ public class DichVuService {
     public void xoa(String id) {
         dichVuRepository.deleteById(id);
     }
+    public List<DichVu> getAllDichVu() {
+        return dichVuRepository.findAll();  // Sử dụng JPA repository
+    }
+    public DichVu getDichVuById(String maDichVu) {
+        return dichVuRepository.findById(maDichVu).orElse(null);
+    }
+    
+    
 }

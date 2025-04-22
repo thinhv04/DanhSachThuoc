@@ -4,69 +4,112 @@
     <meta charset="UTF-8">
     <title>Nhập Thuốc</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
     <style>
-        /* Tăng thẩm mỹ cho form nhập thuốc */
-        .form-container {
-            max-width: 750px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 25px;
+          /* Thiết lập font chữ */
+          body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 150px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 📝 Hiệu ứng hover và bóng cho FORM */
+        form {
+            background: white;
+            padding: 20px;
             border-radius: 10px;
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease-in-out;
         }
 
-        .form-container:hover {
-            box-shadow: 0px 6px 18px rgba(0, 0, 0, 0.15);
+        form:hover {
+            box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
         }
 
-        /* Hiệu ứng input */
-        .form-control, .form-select {
+        /* ✏️ Hiệu ứng cho Input */
+        input.form-control {
             border-radius: 8px;
-            border: 1px solid #ced4da;
             transition: all 0.3s ease-in-out;
         }
 
-        .form-control:focus, .form-select:focus {
+        input.form-control:focus {
             border-color: #007bff;
-            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.3);
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
         }
 
-        /* Nút bấm hiệu ứng */
-        .btn-custom {
+        /* 📋 Bảng với hiệu ứng hover */
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5 !important;
             font-weight: bold;
-            padding: 10px;
-            border-radius: 8px;
+            transform: scale(1.02);
             transition: all 0.3s ease-in-out;
         }
 
-        .btn-custom:hover {
-            transform: scale(1.05);
-            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+        /* 🖱️ Nút hành động */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            border-radius: 6px;
         }
 
-        /* Căn chỉnh bảng dữ liệu */
-        table th {
-            text-align: center;
-            background: #f1f3f5;
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
         }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    
     </style>
 </head>
 <body>
+  <!-- Navbar -->
 
-<div class="container mt-4">
-    <!-- Tiêu đề -->
-    <h2 class="text-center my-4">
-        <a href="/quanly/trangchu/trangthuoc" class="text-decoration-none text-dark fw-bold">Nhập Thuốc</a>
-    </h2>
+  <div th:replace="~{admin/navbar :: navbar}"></div>
+  <div class="d-flex">
+      <!-- Sidebar -->
+      <div th:replace="~{admin/menu :: menu}"></div>
+      <!-- Main Content -->
+      <main class="content w-100">
+          <!-- Toast thông báo -->
 
-    <!-- Nút quay lại -->
-    <div class="mb-3">
-        <a href="/quanly/trangchu/trangthuoc" class="btn btn-outline-dark btn-sm">⬅️ Quay lại</a>
-    </div>
+  <div class="content">
+      <ul class="nav nav-tabs mb-5">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/quanly/trangchu/thuoc}">Trang thuốc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/thuoc/nhapthuoc}">Danh sách nhập thuốc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/thuoc/khothuoc}">Kho thuốc</a>
+          </li>
+        </ul>
+      <div class="header">Quản Lý Thuốc</div>
+      <div class="search-container">
+          <form action="/quanly/trangchu/thuoc/timkiem" method="get" class="container d-flex">
+              <input type="text" name="keyword" class="form-control me-2" placeholder="Nhập mã hoặc tên thuốc..." th:value="${keyword}">
+              <button type="submit" class="btn btn-primary">Tìm</button>
+          </form>
+      </div>
+      <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+      <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
 
-    <!-- Form nhập thuốc -->
-
+      
     <!-- Danh sách nhập thuốc -->
     <h3 class="text-center mt-4 text-primary">📋 Danh Sách Nhập Thuốc</h3>
     <!-- Bảng danh sách nhập thuốc -->
@@ -97,6 +140,9 @@
             </tr>
         </tbody>
     </table>
+  </div>
+      </main>
+  </div>
 </div>
 
 </body>

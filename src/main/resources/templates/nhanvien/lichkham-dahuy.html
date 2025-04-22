@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Xác nhận lịch khám</title>
+  <!-- Sử dụng Bootstrap CSS phiên bản 5 (hoặc phiên bản bạn dùng) -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+   <style>
+      body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .sidebar {
+            width: 250px;
+            min-height: 100vh;
+            background: #343a40;
+            padding: 20px;
+            position: fixed;
+            top: 0;
+            left: 0;
+            color: white;
+        }
+        .sidebar .nav-link {
+            color: white;
+            font-size: 16px;
+            padding: 10px;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+        }
+        .sidebar .nav-link:hover {
+            background-color: #495057;
+        }
+        .content {
+            margin-left: 270px;
+            padding: 20px;
+        }
+        .hero-section {
+            background: linear-gradient(135deg, #6f42c1, #007bff);
+            color: white;
+            padding: 40px;
+            border-radius: 10px;
+        }
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->  <div th:replace="~{nhanvien/menu :: menu}"></div>
+
+<!-- Main Content -->
+<div class="content">
+    <div class="hero-section">
+        <h2 class="text-center">👨‍⚕️ Nhân Viên Y Tế - Trách Nhiệm & Sứ Mệnh</h2>
+        <p class="mt-3">
+            Nhân viên y tế đóng vai trò quan trọng trong hệ thống chăm sóc sức khỏe, đặc biệt là việc quản lý thuốc. 
+            Họ không chỉ đảm bảo thuốc được nhập đúng quy trình mà còn theo dõi chất lượng và số lượng thuốc trong kho.
+        </p>
+        <p>
+            🔹 **Quản lý nhập thuốc:** Kiểm tra và ghi nhận số lượng thuốc mới nhập.  
+            🔹 **Theo dõi kho thuốc:** Cập nhật số lượng thuốc còn trong kho theo thời gian thực.  
+            🔹 **Tư vấn & hỗ trợ:** Hỗ trợ bác sĩ và bệnh nhân về việc sử dụng thuốc an toàn.  
+        </p>
+    </div>
+
+    <div class="mt-4">
+        
+  <div class="container my-4">
+    <div th:replace="~{nhanvien/tab :: tab}"></div>
+    <h2 class="mb-4 text-center">Danh sách lịch khám đã hủy</h2>
+    
+    <!-- Hiển thị thông báo lỗi/thành công nếu có -->
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    
+    <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">👤 Bệnh nhân</th>
+                    <th scope="col">📅 Ngày khám</th>
+                    <th scope="col">📝 Ghi chú</th>
+                    <th scope="col">📌 Trạng thái</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="lich, iterStat : ${lichKhams}">
+                    <td th:text="${iterStat.index + 1}">1</td>
+                    <td th:text="${lich.benhNhan.hoTen}">Nguyễn Văn A</td>
+                    <td th:text="${lich.ngayKham}">10/04/2025</td>
+                    <td th:text="${lich.ghiChu}">Không rõ lý do</td>
+                    <td>
+                        <span class="badge bg-danger" th:text="${lich.trangThai}">Đã hủy</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+  </div>
+  
+    </div>
+</div>
+  <!-- Link Bootstrap JS (với Popper nếu cần) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

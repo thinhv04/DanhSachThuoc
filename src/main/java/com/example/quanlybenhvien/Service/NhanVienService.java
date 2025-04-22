@@ -75,15 +75,4 @@ public class NhanVienService {
         }
         return null;
     }
-    
-    public NhanVien authenticate(String username, String password) {
-        Optional<NhanVien> nhanVienOpt = nhanVienDao.findByEmail(username);
-        if (nhanVienOpt.isPresent()) {
-            NhanVien nhanVien = nhanVienOpt.get();
-            if (passwordEncoder.matches(password, nhanVien.getMatKhau())) {
-                return nhanVien;
-            }
-        }
-        return null;
-    }
 }

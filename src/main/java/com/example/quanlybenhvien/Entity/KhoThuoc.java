@@ -26,4 +26,13 @@ public class KhoThuoc {
     @OneToOne
     @JoinColumn(name = "ma_thuoc", referencedColumnName = "ma_thuoc", insertable = false, updatable = false)
     private Thuoc thuoc; // Liên kết với bảng THUOC
+
+    // Getter và Setter cho soLuongHienCo
+    public int getSoLuongHienCo() {
+        return soLuongHienCo;
+    }
+
+    public void setSoLuongHienCo(int soLuongHienCo) {
+        this.soLuongHienCo = soLuongHienCo;
+    }
 }

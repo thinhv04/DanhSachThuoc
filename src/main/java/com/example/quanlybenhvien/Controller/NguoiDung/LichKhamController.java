@@ -154,5 +154,26 @@ public class LichKhamController {
 
         return "lichsudatlich";
     }
+    @GetMapping("/huylichkham")
+    public String huyLichKham(@RequestParam("maLichKham") Integer maLichKham,
+            RedirectAttributes redirectAttributes) {
+        Optional<LichKham> optionalLichKham = lichKhamService.findById(maLichKham);
 
+        if (optionalLichKham.isPresent()) {
+            LichKham lich = optionalLichKham.get();
+
+            if (!"Chờ xác nhận".equalsIgnoreCase(lich.getTrangThai())) {
+                redirectAttributes.addFlashAttribute("errorMessage", "Lịch khám đã được xác nhận, không thể hủy.");
+            } else {
+                lich.setTrangThai("Đã hủy");
+                lichKhamService.save(lich);
+                redirectAttributes.addFlashAttribute("successMessage", "Hủy lịch khám thành công.");
+            }
+        } else {
+            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy lịch khám.");
+        }
+
+        return "redirect:/nguoidung/lichkham/lichsu";
+
+    }
 }

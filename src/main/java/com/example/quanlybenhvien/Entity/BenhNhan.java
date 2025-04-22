@@ -51,7 +51,4 @@ public class BenhNhan {
     private String duong;
     @Transient
     private String nhapLaiMatKhau;
-
-    @OneToMany(mappedBy = "benhNhan", cascade = CascadeType.ALL)
-    private List<BenhAn> danhSachBenhAn;
 }

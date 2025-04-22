@@ -38,4 +38,35 @@ public class KhoThuocService {
             khoThuocRepository.save(khoThuoc);
         }
     }
+
+    public void giamSoLuong(String maThuoc, int soLuongGiam) {
+        KhoThuoc khoThuoc = khoThuocRepository.findById(maThuoc).orElse(null);
+        
+    
+        if (khoThuoc == null) {
+            throw new RuntimeException("Không tìm thấy thuốc trong kho.");
+        }
+    
+        int hienCo = khoThuoc.getSoLuongHienCo();
+        if (hienCo < soLuongGiam) {
+            throw new RuntimeException("Số lượng thuốc trong kho không đủ. Hiện còn: " + hienCo);
+        }
+    
+        khoThuoc.setSoLuongHienCo(hienCo - soLuongGiam);
+        khoThuocRepository.save(khoThuoc);
+    }
+    
+    // Tăng số lượng thuốc vào kho
+    public void tangSoLuong(String maThuoc, int soLuong) {
+        KhoThuoc khoThuoc = khoThuocRepository.findById(maThuoc).orElse(null);
+        
+        if (khoThuoc == null) {
+            throw new RuntimeException("Không tìm thấy thuốc trong kho.");
+        }
+        
+        int hienCo = khoThuoc.getSoLuongHienCo();
+        khoThuoc.setSoLuongHienCo(hienCo + soLuong);  // Tăng số lượng thuốc
+        khoThuocRepository.save(khoThuoc);  // Lưu lại thay đổi
+    }
+    
 }

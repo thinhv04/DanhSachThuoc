@@ -4,46 +4,141 @@
     <meta charset="UTF-8">
     <title>Kho Thuốc</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+    <style>
+          /* Thiết lập font chữ */
+          body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f8f9fa;
+        }
+
+        .content {
+            margin-left: 150px;
+            padding: 20px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 📝 Hiệu ứng hover và bóng cho FORM */
+        form {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease-in-out;
+        }
+
+        form:hover {
+            box-shadow: 3px 6px 15px rgba(0, 0, 0, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ✏️ Hiệu ứng cho Input */
+        input.form-control {
+            border-radius: 8px;
+            transition: all 0.3s ease-in-out;
+        }
+
+        input.form-control:focus {
+            border-color: #007bff;
+            box-shadow: 0px 0px 8px rgba(0, 123, 255, 0.5);
+        }
+
+        /* 📋 Bảng với hiệu ứng hover */
+        .table-hover tbody tr:hover {
+            background-color: #f1f3f5 !important;
+            font-weight: bold;
+            transform: scale(1.02);
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* 🖱️ Nút hành động */
+        .btn {
+            transition: all 0.3s ease-in-out;
+            border-radius: 6px;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+            }
+
+            .content {
+                margin-left: 0;
+            }
+        }
+    
+    </style>
 </head>
 <body>
-    <div class="container mt-4">
-        <h2 class="text-center my-4">
-            <a href="/quanly/trangchu/trangthuoc" class="text-decoration-none text-dark">📦 Danh Sách Kho Thuốc</a>
-        </h2>
+     <!-- Navbar -->
 
-        <!-- Nút quay lại nhập thuốc -->
-        <div class="d-flex justify-content-start mb-3">
-            <a href="/quanly/trangchu/trangthuoc/nhapthuoc" class="btn btn-secondary">
-                ⬅️ Quay lại Nhập Thuốc
-            </a>
-        </div>
+  <div th:replace="~{admin/navbar :: navbar}"></div>
+  <div class="d-flex">
+      <!-- Sidebar -->
+      <div th:replace="~{admin/menu :: menu}"></div>
+      <!-- Main Content -->
+      <main class="content w-100">
+          <!-- Toast thông báo -->
 
-        <!-- Form tìm kiếm -->
-        <form method="get" action="/quanly/trangchu/trangthuoc/khothuoc/list" class="d-flex mb-3">
-            <input type="text" name="keyword" th:value="${keyword}" placeholder="🔎 Nhập mã hoặc tên thuốc..." class="form-control w-50 me-2">
-            <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-        </form>
+  <div class="content">
+      <ul class="nav nav-tabs mb-5">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/quanly/trangchu/thuoc}">Trang thuốc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/thuoc/nhapthuoc}">Danh sách nhập thuốc</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/thuoc/khothuoc}">Kho thuốc</a>
+          </li>
+        </ul>
+      <div class="header">Quản Lý Thuốc</div>
+      <div class="search-container">
+          <form action="/quanly/trangchu/thuoc/timkiem" method="get" class="container d-flex">
+              <input type="text" name="keyword" class="form-control me-2" placeholder="Nhập mã hoặc tên thuốc..." th:value="${keyword}">
+              <button type="submit" class="btn btn-primary">Tìm</button>
+          </form>
+      </div>
+      <div th:if="${message}" class="alert alert-success" role="alert" th:text="${message}"></div>
+      <div th:if="${error}" class="alert alert-danger" role="alert" th:text="${error}"></div>
 
-        <!-- Bảng danh sách kho thuốc -->
-        <table class="table table-bordered table-hover align-middle text-center">
-            <thead class="table-dark">
-                <tr>
-                    <th>Mã Thuốc</th>
-                    <th>Tên Thuốc</th>
-                    <th>Số Lượng Hiện Có</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="kho : ${khoThuocList}">
-                    <td th:text="${kho.maThuoc}"></td>
-                    <td th:text="${kho.thuoc.tenThuoc}"></td>
-                    <td class="fw-bold" th:text="${kho.soLuongHienCo}"></td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(khoThuocList)}">
-                    <td colspan="3" class="text-center text-danger fw-bold">🚫 Không có dữ liệu trong kho thuốc!</td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
+      
+    <!-- Form tìm kiếm -->
+    <form method="get" action="/nhanvien/trangchu/khothuoc/list" class="d-flex mb-3">
+        <input type="text" name="keyword" th:value="${keyword}" placeholder="🔎 Nhập mã hoặc tên thuốc..." class="form-control w-50 me-2">
+        <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+    </form>
+
+    <!-- Bảng danh sách kho thuốc -->
+    <table class="table table-bordered table-hover align-middle text-center">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã Thuốc</th>
+                <th>Tên Thuốc</th>
+                <th>Số Lượng Hiện Có</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="kho : ${khoThuocList}">
+                <td th:text="${kho.maThuoc}"></td>
+                <td th:text="${kho.thuoc.tenThuoc}"></td>
+                <td class="fw-bold" th:text="${kho.soLuongHienCo}"></td>
+            </tr>
+            <tr th:if="${#lists.isEmpty(khoThuocList)}">
+                <td colspan="3" class="text-center text-danger fw-bold">🚫 Không có dữ liệu trong kho thuốc!</td>
+            </tr>
+        </tbody>
+    </table>
+  </div>
+      </main>
+  </div>
+</div>
 </body>
 </html>

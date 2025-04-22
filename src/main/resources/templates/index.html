@@ -13,16 +13,15 @@
     <link rel="stylesheet" th:href="@{/css/header.css}">
     <title>Trang chủ</title>
     <style>
-    
+   
         .search-box {
             width: 300px;
             margin: auto;
         }
-
-
-        .carousel-item img {
-            height: 550px;  /* Chiều cao cố định */
-            object-fit: cover;  /* Cắt ảnh để vừa khung */
+        .carousel-inner img {
+            width: 300px; /* Đảm bảo ảnh giãn hết bề ngang */
+            height: 600px; /* Điều chỉnh chiều cao nếu cần */
+            object-fit: cover; /* Tránh méo ảnh */
         }
 
         .booking-container {
@@ -200,23 +199,124 @@
             border-radius: 50%;
             object-fit: cover;
         }
+        .services {
+            display: flex;
+            justify-content: center;
+            padding: 20px;
+            background: #fff;
+        }
+        .service {
+        flex: 1;
+        text-align: center; 
+        padding: 20px;
+        border-radius: 10px;
+        background: #f8f9fa;
+        box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease;
+        }
+        .service:hover {
+            transform: scale(1.05);
+        }
+            .service h3 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+    .service a {
+        display: inline-block;
+        margin-top: 10px;
+        padding: 10px 15px;
+        font-size: 18px;
+        background: #007bff;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+    }
+
+    .service a:hover {
+        background: #0056b3;
+    }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f9f9f9;
+        }
+        .container {
+            max-width: 1300px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .content {
+            max-width: 600px;
+        }
+        .content h2 {
+            font-size: 2em;
+            color: #333;
+            border-bottom: 3px solid #28a745;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+        .content p {
+            color: #555;
+        }
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .feature {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .feature img {
+            width: 40px;
+            height: 40px;
+        }
+        .feature h3 {
+            margin: 0;
+            color: #007bff;
+        }
+        .image img {
+            width: 600px;
+            height: auto;
+            object-fit: cover;
+            border-radius: 10px;
+            max-height: 800px;
+        }
+        .border-image-taolam{
+            width: 1520px;
+            height: 550px;
+           
+            justify-content: center;
+            overflow: hidden;
+        }
+        .border-image-taolam img{
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: cover;
+        }
     </style>
 </head>
 
 <body>
   <div th:replace="~{header :: header}"></div>
 
-    <div class="container mt-5">
+    <div class=" mt-5 ms-5">
         <div id="carouselExampleInterval" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
+            <div class=" border-image-taolam carousel-inner">
               <div class="carousel-item active" data-bs-interval="2000">
-                <img src="/images/banner/1.png" class="d-block w-100" alt="..." style="height: 500px;">
+                <img src="/images/banner/1.png" class="d-block w-100" alt="..." style="height: 100%;" >
               </div>
               <div class="carousel-item" data-bs-interval="2000">
-                <img src="/images/banner/2.png" class="d-block w-100" alt="..."style="height: 500px;">
+                <img src="/images/banner/2.png" class="d-block w-100" alt="..."style="height: 100%;">
               </div>
               <div class="carousel-item">
-                <img src="/images/banner/3.png" class="d-block w-100" alt="..."style="height: 500px;">
+                <img src="/images/banner/3.png" class="d-block w-100" alt="..."style="height: 100%  ;">
               </div>
             </div>
             <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
@@ -227,77 +327,58 @@
               <span class="carousel-control-next-icon" aria-hidden="true"></span>
               <span class="visually-hidden">Next</span>
             </button>
+            <section class="services">
+                <div class="service">
+                    <h3>Gọi tổng đài</h3>
+                    <p>Hỏi về phương pháp điều trị và phương pháp của chúng tôi</p>
+                </div>
+                <div class="service">
+                    <h3>Đặt lịch hẹn</h3>
+                    <p>Đặt lịch hẹn với bệnh viện của chúng tôi</p>
+                    <a th:href="@{/nguoidung/lichkham}">Đặt lịch ngay</a>
+                </div>
+                <div class="service">
+                    <h3>Tìm bác sĩ</h3>
+                    <p>Chọn theo tên, chuyên môn và nhiều hơn thế</p>
+                    <a th:href="@{/nguoidung/bacsi}">Tìm bác sĩ</a>
+                </div>
+            </section>
           </div>
     </div>
-    <h2 class="section-title" style="text-align: center;">ĐẶT LỊCH KHÁM BỆNH</h2>
-    <div class="divider"></div>
-
-    <div class="booking-container">
-        <!-- Phần Form Đăng Ký -->
-        <div class="form-section">
-            <h3>ĐĂNG KÝ KHÁM BỆNH</h3>
-            <label>* Chọn địa điểm khám</label>
-            <select>
-                <option>...</option>
-                <option>BVDK NHÓM 2 Hà Nội</option>
-                <option>BVDK NHÓM 2 TP. HCM</option>
-                <option>BVDK NHÓM 2 CẦN THƠ</option>
-            </select>
-    
-            <label>* Chọn loại dịch vụ khám</label>
-            <div class="d-flex gap-2">
-                <button class="btn btn-light flex-fill">Khám trong giờ</button>
-                <button class="btn btn-light flex-fill">Khám ngoài giờ</button>
-                <button class="btn btn-light flex-fill">Khám online</button>
-            </div>
-    
-            <label>Chọn chuyên khoa</label>
-            <select>
-                <option>...</option>
-                <option>Chuyên khoa mắt</option>
-                <option>Chuyên khoa phụ khoa</option>
-                <option>Chuyên khoa tai, mũi, họng</option>
-                <option>Chuyên khoa thần kinh</option>
-            </select>
-    
-            <label>* Chọn bác sĩ</label>
-            <select>
-                <option>...</option>
-                <option>Bác Sĩ Giàu</option>
-                <option>Bác Sĩ Tân</option>
-                <option>Bác Sĩ Bảo</option>
-            </select>
-    
-            <label>* Chọn ngày - khung giờ</label>
-            <input type="date">
-    
-            <label>* Nhập vấn đề sức khỏe cần khám</label>
-            <textarea rows="3" placeholder="Nhập tình trạng sức khỏe..."></textarea>
-    
-            <button>TIẾP THEO →</button>
+    <div class="container">
+        <div class="image">
+            <img src="https://www.vinmec.com/static/uploads/wepik_export_20230610051550k_Azj_1_1_de0e3052ea.png" alt="Nurse">
         </div>
-    
-        <!-- Phần Thông Tin -->
-        <div class="info-section py-5">
-            <h2>BỆNH VIỆN ĐA KHOA NHÓM 2</h2>
-            <p>Uy tín - Chất lượng - Tận tâm</p>
-    
-            <div class="grid-icons">
-                <div class="icon-box">
-                    <img src="https://cdn-icons-png.flaticon.com/512/724/724664.png" alt="Tư vấn">
-                    <span>TƯ VẤN KHÁM BỆNH</span>
+        <div class="content">
+            <h2>Tại sao nên chọn Health Center</h2>
+            <div class="features">
+                <div class="feature">
+                    <img src="https://www.vinmec.com/static/uploads/whyus_01_403f42a936.svg" alt="Expertise">
+                    <div>
+                        <h3>Chuyên gia hàng đầu</h3>
+                        <p>Health Center quy tụ đội ngũ chuyên gia, bác sĩ giỏi và tận tâm.</p>
+                    </div>
                 </div>
-                <div class="icon-box">
-                    <img src="https://cdn-icons-png.flaticon.com/512/3209/3209036.png" alt="Chuyên gia">
-                    <span>CHUYÊN GIA - BÁC SĨ</span>
+                <div class="feature">
+                    <img src="https://www.vinmec.com/static/uploads/whyus_02_2a57cb372f.svg" alt="Quality">
+                    <div>
+                        <h3>Chất lượng quốc tế</h3>
+                        <p>Dịch vụ chăm sóc sức khỏe đạt chuẩn quốc tế.</p>
+                    </div>
                 </div>
-                <div class="icon-box">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2921/2921222.png" alt="Tra cứu">
-                    <span>TRA CỨU KẾT QUẢ</span>
+                <div class="feature">
+                    <img src="https://www.vinmec.com/static/uploads/whyus_03_2f1c276a39.svg" alt="Technology">
+                    <div>
+                        <h3>Công nghệ tiên tiến</h3>
+                        <p>Cơ sở vật chất hiện đại, áp dụng công nghệ cao.</p>
+                    </div>
                 </div>
-                <div class="icon-box">
-                    <img src="https://cdn-icons-png.flaticon.com/512/747/747310.png" alt="Bảng giá">
-                    <span>BẢNG GIÁ</span>
+                <div class="feature">
+                    <img src="https://www.vinmec.com/static/uploads/whyus_01_403f42a936.svg" alt="Research">
+                    <div>
+                        <h3>Nghiên cứu & Đổi mới</h3>
+                        <p>Thúc đẩy nghiên cứu y học và ứng dụng sáng tạo.</p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -329,57 +410,39 @@
         </div>
     </div>
 </div>
-
-
-<h2 class="section-title" style="text-align: center;">VINH DANH</h2>
-    <div class="divider"></div>
-<div class="banner">
-        <div class="badge">🏅</div>
-        <div class="content">
-            <div class="highlight">GƯƠNG MẶT TIÊU BIỂU: Bác sĩ PHẠM THANH GIÀU</div>
-            <div class="title">Bác sĩ Phụ Khoa Bệnh viện NHÓM 2 tất bật té xỉu</div>
-            <div class="description">Bác sĩ Phụ Khoa tất bật là hình ảnh quen thuộc ở đơn vị Phụ Khoa, Bệnh viện NHÓM 2 vì mầm non đất nước, vì con em của chúng ta, liên tục 30 ngày với hơn 100 ca sinh mổ đã khiến bác sĩ choáng váng đầu óc và nhìn thấy nhiều HÀU nên đã ngất xỉu tại chỗ... </div>
-            <!-- <div class="dots">
-                <div class="dot"></div>
-                <div class="dot"></div>
-                <div class="dot active"></div>
-                <div class="dot"></div>
-            </div> -->
-        </div>
         <div class="image">
             <img src="https://scontent.fsgn5-9.fna.fbcdn.net/v/t39.30808-6/480339482_1006879324680236_5576092646256277393_n.jpg?stp=cp6_dst-jpg_tt6&_nc_cat=105&ccb=1-7&_nc_sid=833d8c&_nc_ohc=yrYEsk8kbWMQ7kNvgF0y7X8&_nc_oc=AdgBIrTudhHKTpgwe0xEgmGgqJ6kdtjc1g5_bJRBUt1DEnOp9vCB5rDCOFSw4zt3DYk&_nc_zt=23&_nc_ht=scontent.fsgn5-9.fna&_nc_gid=AqQ6XhtadXOcUBz4k20-LbQ&oh=00_AYC5hTxfC4Yz7p8jXuIk5C-1QywvEOtdOrydbK6R_brHFQ&oe=67B5CC8A" alt="">
         </div>
     </div>
-
-<div class="container my-5 py-5">
     <h2 class="section-title" style="text-align: center;">TIN TỨC</h2>
     <div class="divider"></div>
+<div class="container mt-5">
     <div class="row">
-        <div class="col-md-12">
-            <div class="card news-card">
-                <div class="row g-0">
-                    <div class="col-md-6">
-                        <img src="https://scontent.fsgn2-6.fna.fbcdn.net/v/t39.30808-6/480004259_1034227785199639_2609693125905458377_n.jpg?stp=cp6_dst-jpg_s960x960_tt6&_nc_cat=111&ccb=1-7&_nc_sid=833d8c&_nc_ohc=EOsQGyXzdsMQ7kNvgHQy6Uc&_nc_oc=AdiHmP6f8SnJDLCAlHkGeST4xUclSc6Kg8GZrv9pbJj2WFxbO6wzttxreiDJtxZ2Vbo&_nc_zt=23&_nc_ht=scontent.fsgn2-6.fna&_nc_gid=AgN2rJMKFljd_nIpqG_upME&oh=00_AYD_zuHSOTzh0ezPedS4jSOBxrdL8MeTQps8_5O-wBwrng&oe=67B77F1F" alt="Tin tức" class="news-image" style="width: 100%;height: 100%; object-fit: cover;border-radius: 5px;/">
-                    </div>
-                    <div class="col-md-6">
-                        <div class="news-content">
-                            <h5 class="fw-bold">THÀNH LẬP CÔNG TY TNHH NHÓM 2 TIẾN HÀNH DỰ ÁN TỐT NGHIỆP</h5>
-                            <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark">#Sản phụ khoa</span></p>
-                            <p class="text-muted">Ngày .. năm 2024, Công Ty TNHH NHÓM 2 thành lập và đang tiến hành dự án tốt nghiệp ngành PHÁT TRIỂN PHẦN MỀM tại FPT POLYTECHNIC TP.HCM, chúng tôi rất mong được sự ủng hộ và đóng góp của mọi người để hoàn thành dự án tốt nhất và mong tương lai sẽ mang đến cho mọi người nhiều sản phẩm tốt hơn...</p>
+        <div class="row mb-3">
+            <div class="col-md-12">
+                <div class="card news-card">
+                    <div class="row g-0">
+                        <div class="col-md-6">
+                            <img src="http://bvtwct.vn/images/bg-banner.jpg" alt="Tin tức" class="news-image" style="width: 100%;height: 100%; object-fit: cover;border-radius: 5px;">
+                        </div>
+                        <div class="col-md-6 ">
+                            <div class="news-content ms-3 mt-2">
+                                <h5 class="fw-bold">THÀNH LẬP CÔNG TY TNHH NHÓM 2 TIẾN HÀNH DỰ ÁN TỐT NGHIỆP</h5>
+                                <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark"></span></p>
+                                <p class="text-muted">Ngày .. năm 2024, Công Ty TNHH NHÓM 2 thành lập và đang tiến hành dự án tốt nghiệp ngành PHÁT TRIỂN PHẦN MỀM tại FPT POLYTECHNIC TP.HCM, chúng tôi rất mong được sự ủng hộ và đóng góp của mọi người để hoàn thành dự án tốt nhất và mong tương lai sẽ mang đến cho mọi người nhiều sản phẩm tốt hơn...</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <div class="row mt-4">
         <div class="col-md-4">
             <div class="card news-card">
                 <img src="https://cdn.tgdd.vn/News/Thumb/1480223/uong-nhieu-nuoc-giam-can-nhu-the-nao-cach-uong-thumb-1200x628.png" alt="Giảm cân" class="news-image">
                 <div class="news-content">
                     <h6 class="fw-bold">TIPS GIẢM CÂN, GIẢM CÂN THẾ NÀO LÀ HIỆU QUẢ</h6>
-                    <i>Người soạn: GIAU</i>
-                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark">#Giảm cân</span></p>
+                   
+                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark"></span></p>
                 </div>
             </div>
         </div>
@@ -388,8 +451,8 @@
                 <img src="https://tamanhhospital.vn/wp-content/uploads/2022/06/virus-hpv-thumb.jpg" alt="Dịch HPV" class="news-image">
                 <div class="news-content">
                     <h6 class="fw-bold">HPV ĐANG BÙNG PHÁT MỌI NGƯỜI DỄ NHẦM LẪN VỚI CẢM CÚM THÔNG THƯỜNG</h6>
-                    <i>Người soạn: GIAU</i>
-                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark">#Dịch HPV</span></p>
+                    
+                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark"></span></p>
                 </div>
             </div>
         </div>
@@ -398,8 +461,8 @@
                 <img src="https://cdn.thehinh.com/2019/04/thehinh-thumb-tang-can-hieu-qua-1200x628.jpg" alt="TĂNG CÂN" class="news-image">
                 <div class="news-content">
                     <h6 class="fw-bold">CÁCH TĂNG CÂN THẦN TỐC CHO NGƯỜI GẦY, NGƯỜI LƯỜI ĂN</h6>
-                    <i>Người soạn: GIAU</i>
-                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark">#Tăng cân</span></p>
+                
+                    <p><small>📅 14/02/2025</small> <span class="badge bg-light text-dark"></span></p>
                 </div>
             </div>
         </div>

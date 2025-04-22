@@ -34,10 +34,6 @@ public class NhapThuocService {
     public NhapThuoc themNhapThuoc(NhapThuoc nhapThuoc) {
         System.out.println("📌 Dữ liệu nhập thuốc nhận được: " + nhapThuoc);
 
-        if (nhapThuoc == null || nhapThuoc.getThuoc() == null || nhapThuoc.getNhanVien() == null) {
-            throw new IllegalArgumentException("⚠ Dữ liệu nhập thuốc không hợp lệ!");
-        }
-
         // 🔹 Kiểm tra dữ liệu nhân viên từ request
         if (nhapThuoc.getNhanVien() == null || nhapThuoc.getNhanVien().getMaNhanVien() == null) {
             throw new RuntimeException("⚠ Không tìm thấy thông tin nhân viên từ request!");

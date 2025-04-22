@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Thêm bệnh án</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm rounded-4">
+                <div class="card-header bg-primary text-white text-center rounded-top-4">
+                    <h4 th:text="${isEdit ? 'Cập nhật bệnh án' : 'Thêm bệnh án'}" class="mb-0"></h4>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{${isEdit} ? '/bacsi/trangchu/benhan/update/' + ${benhAn.maBenhAn} : '/bacsi/trangchu/benhan/save'}" method="post">
+
+                        <input type="hidden" name="lichKhamId" th:value="${lichKham.maLichKham}" />
+                        <input type="hidden" name="benhNhanId" th:value="${lichKham.benhNhan.maBenhNhan}" />
+
+                        <div class="mb-3">
+                            <label class="form-label">Mã lịch khám:</label>
+                            <input type="text" class="form-control" th:value="${lichKham.maLichKham}" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tên bệnh nhân:</label>
+                            <input type="text" class="form-control" th:value="${lichKham.benhNhan.hoTen}" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Mã bác sĩ:</label>
+                            <input type="text" class="form-control" th:value="${lichKham.bacSi.maBacSi}" disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tên bác sĩ:</label>
+                            <input type="text" class="form-control" th:value="${lichKham.bacSi.hoTen}" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ngày khám:</label>
+                            <input type="text" class="form-control" th:value="${#temporals.format(lichKham.ngayKham, 'dd/MM/yyyy')}" readonly />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Tên bệnh án:</label>
+                            <input type="text" name="tenBenhAn" class="form-control" th:value="${benhAn.tenBenhAn}" placeholder="Nhập tên bệnh án" required />
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Triệu chứng:</label>
+                            <textarea name="trieuChung" class="form-control" placeholder="Nhập triệu chứng" required th:text="${benhAn.trieuChung}"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Điều trị:</label>
+                            <textarea name="dieuTri" class="form-control" placeholder="Nhập cách điều trị" required th:text="${benhAn.dieuTri}"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Ghi chú:</label>
+                            <textarea name="ghiChu" class="form-control" placeholder="Ghi chú thêm nếu có" required th:text="${benhAn.ghiChu}"></textarea>
+                        </div>
+
+                        <div class="text-center d-flex justify-content-between mt-4">
+                            <a th:href="@{/bacsi/trangchu/benhan}" class="btn btn-outline-secondary px-4">← Trở về trang chủ</a>
+                            <button type="submit" class="btn btn-success px-4" th:text="${isEdit} ? 'Cập nhật bệnh án' : 'Thêm bệnh án'"></button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (optional) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

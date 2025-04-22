@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kê Thuốc</title>
+    <!-- Nhúng Bootstrap 5 -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Roboto -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #e3f2fd, #f1f3f5);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .container-card {
+            max-width: 700px;
+            width: 100%;
+        }
+
+        h2 {
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+        }
+
+        .form-control, .form-select {
+            border-radius: 12px;
+            transition: 0.3s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        }
+
+        .btn-primary, .btn-secondary {
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .btn-danger.btn-sm {
+            border-radius: 8px;
+            font-weight: 500;
+        }
+
+        table {
+            background-color: #fff;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #0d6efd;
+            color: white;
+            font-weight: 600;
+            text-align: center;
+        }
+
+        td {
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .alert {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container-card">
+    <h2>💊 Kê Thuốc Cho Đơn</h2>
+
+    
+
+
+    <form th:action="@{/bacsi/trangchu/benhan/chitietdonthuoc/luu}" th:object="${chiTietDonThuoc}" method="post" class="mb-4 p-4 bg-white rounded shadow-sm">
+        <input type="hidden" th:field="*{maDonThuoc}" />
+
+        <!-- Chọn Thuốc -->
+        <div class="mb-3">
+            <label class="form-label">🧪 Chọn Thuốc</label>
+            <select class="form-select" th:field="*{maThuoc}">
+                <option th:each="thuoc : ${danhSachThuoc}"
+                        th:value="${thuoc.maThuoc}"
+                        th:text="${thuoc.tenThuoc + ' (' + thuoc.donVi + ')' + ' -  (' + thuoc.moTa + ')'}">
+                </option>
+            </select>
+        </div>
+
+        <!-- Số Lượng -->
+        <div class="mb-3">
+            <label class="form-label">🔢 Số Lượng</label>
+            <input type="number" class="form-control" placeholder="Nhập số lượng " th:field="*{soLuong}" required min="1" />
+        </div>
+
+        <!-- Liều Lượng -->
+        <div class="mb-3">
+            <label class="form-label">💉 Liều Lượng</label>
+            <input type="text" class="form-control" placeholder="ví dụ: 2 lần/ ngày" th:field="*{lieuLuong}" required />
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-primary px-4">➕ Thêm vào đơn</button>
+            <a th:href="@{/bacsi/trangchu/benhan/danh-sach-benh-an}" class="btn btn-secondary">✅ Hoàn tất</a>
+        </div>
+    </form>
+    <!-- Toast Container -->
+<div class="position-fixed top-0 end-0 p-3" style="z-index: 1055">
+    <!-- Toast Thành Công -->
+    <div th:if="${successMessage}" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" id="successToast" data-bs-delay="3000">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center">
+                <lottie-player src="https://lottie.host/6a6ed53e-e3c0-4b2d-aaf7-fb9465d7a405/pAZSm1Fjfg.json" background="transparent" speed="1" style="width: 30px; height: 30px;" autoplay loop></lottie-player>
+                <span class="ms-2" th:text="${successMessage}"></span>
+            </div>
+            
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+
+    <!-- Toast Thất Bại -->
+    <div th:if="${errorMessage}" class="toast align-items-center text-white bg-danger border-0" role="alert" aria-live="assertive" aria-atomic="true" id="errorToast" data-bs-delay="5000">
+        <div class="d-flex">
+            <div class="toast-body d-flex align-items-center">
+                <lottie-player src="https://lottie.host/3283db56-d417-4c3d-91ce-2a9514874479/1TjBoKY0B2.json" background="transparent" speed="1" style="width: 30px; height: 30px;" autoplay loop></lottie-player>
+                <span class="ms-2" th:text="${errorMessage}"></span>
+            </div>
+            
+            <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+    </div>
+</div>
+
+
+    <h4 class="fw-bold mt-4 mb-3 text-center">📋 Chi tiết đơn thuốc đã kê</h4>
+
+    <table class="table table-bordered shadow-sm">
+        <thead>
+            <tr>
+                <th>Tên Thuốc</th>
+                <th>Số Lượng</th>
+                <th>Liều Lượng</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ct : ${chiTietDaKe}">
+                <td th:text="${thuocMap.get(ct.maThuoc) != null ? thuocMap.get(ct.maThuoc) : 'Chưa có tên thuốc'}"></td>
+                <td th:text="${ct.soLuong}"></td>
+                <td th:text="${ct.lieuLuong}"></td>
+                <td>
+                    <form th:action="@{/bacsi/trangchu/benhan/chitietdonthuoc/xoa}" method="get">
+                        <input type="hidden" name="maChiTietDt" th:value="${ct.maChiTietDt}" />
+                        <input type="hidden" name="maDonThuoc" th:value="${maDonThuoc}" />
+                        <button type="submit" class="btn btn-danger btn-sm">🗑️ Xóa</button>
+                    </form>
+                </td>
+            </tr>
+
+            <tr th:if="${#lists.isEmpty(chiTietDaKe)}">
+                <td colspan="4" class="text-center text-muted">Chưa có thuốc nào được kê</td>
+            </tr>
+        </tbody>
+    </table>
+    
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Bootstrap JS (đã bao gồm Popper.js) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Bootstrap Icons (cho biểu tượng đẹp trong toast) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        const successToastEl = document.getElementById('successToast');
+        const errorToastEl = document.getElementById('errorToast');
+
+        if (successToastEl) {
+            const toast = new bootstrap.Toast(successToastEl);
+            toast.show();
+
+            // Phát âm thanh thành công
+            const sound = document.getElementById('successSound');
+            if (sound) sound.play();
+        }
+
+        if (errorToastEl) {
+            const toast = new bootstrap.Toast(errorToastEl);
+            toast.show();
+
+            // Phát âm thanh lỗi
+            const sound = document.getElementById('errorSound');
+            if (sound) sound.play();
+        }
+    });
+</script>
+
+<!-- Âm thanh thông báo -->
+<audio id="successSound" src="/sounds/success.mp3" preload="auto"></audio>
+<audio id="errorSound" src="/sounds/error2.mp3" preload="auto"></audio>
+
+
+</body>
+</html>

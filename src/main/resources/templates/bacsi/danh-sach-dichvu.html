@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh Sách Dịch Vụ Đã Thêm</title>
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+    .sidebar {
+        width: 250px;
+        min-height: 100vh;
+        background: #343a40;
+        padding: 20px;
+        position: fixed;
+        top: 0;
+        left: 0;
+        color: white;
+    }
+    .sidebar .nav-link {
+        color: white;
+        font-size: 16px;
+        padding: 10px;
+        border-radius: 5px;
+        transition: all 0.3s ease-in-out;
+    }
+    .sidebar .nav-link:hover {
+        background-color: #495057;
+    }
+    .content {
+        margin-left: 270px;
+        padding: 20px;
+    }
+    .hero-section {
+        background: linear-gradient(135deg, #6f42c1, #007bff);
+        color: white;
+        padding: 40px;
+        border-radius: 10px;
+    }
+</style>
+<body class="bg-light">
+ <!-- Sidebar -->
+ <div th:replace="~{bacsi/menu :: menu}"></div>
+
+ <!-- Main Content -->
+ <div class="content">
+     <div class="hero-section">
+         <h2 class="text-center">👨‍⚕️ Nhân Viên Y Tế - Trách Nhiệm & Sứ Mệnh</h2>
+         <p class="mt-3">
+             Nhân viên y tế đóng vai trò quan trọng trong hệ thống chăm sóc sức khỏe, đặc biệt là việc quản lý thuốc. 
+             Họ không chỉ đảm bảo thuốc được nhập đúng quy trình mà còn theo dõi chất lượng và số lượng thuốc trong kho.
+         </p>
+         <p>
+             🔹 **Quản lý nhập thuốc:** Kiểm tra và ghi nhận số lượng thuốc mới nhập.  
+             🔹 **Theo dõi kho thuốc:** Cập nhật số lượng thuốc còn trong kho theo thời gian thực.  
+             🔹 **Tư vấn & hỗ trợ:** Hỗ trợ bác sĩ và bệnh nhân về việc sử dụng thuốc an toàn.  
+         </p>
+     </div>
+
+     <div class="mt-4">
+         <h4>📋 Các Chức Năng Chính</h4>
+         <div class="container mt-5">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center text-primary">📋 Danh Sách Dịch Vụ Cho Lịch Khám</h2>
+    
+                <!-- Hiển thị thông báo -->
+                <div th:if="${errorMessage}" class="alert alert-danger text-center">
+                    <i class="bi bi-exclamation-triangle"></i> <span th:text="${errorMessage}"></span>
+                </div>
+                <div th:if="${successMessage}" class="alert alert-success text-center">
+                    <i class="bi bi-check-circle"></i> <span th:text="${successMessage}"></span>
+                </div>
+    
+                <!-- Bảng hiển thị danh sách dịch vụ -->
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover mt-3">
+                        <thead class="table-dark text-center">
+                            <tr>
+                                <th>Mã Dịch Vụ</th>
+                                <th>Tên Dịch Vụ</th>
+                                <th>Số Lượng</th>
+                                <th>Giá</th>
+                                <th>Thành Tiền</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="chiTiet : ${lichKham.chiTietDichVus}" class="text-center">
+                                <td th:text="${chiTiet.dichVu.maDichVu}"></td>
+                                <td th:text="${chiTiet.dichVu.tenDichVu}"></td>
+                                <td th:text="${chiTiet.soLuong}"></td>
+                                <td th:text="${#numbers.formatDecimal(chiTiet.dichVu.gia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                                <td th:text="${#numbers.formatDecimal(chiTiet.soLuong * chiTiet.dichVu.gia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+    
+                <!-- Nút quay lại -->
+                <div class="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+                    <a href="/bacsi/trangchu/lichkham/da-xac-nhan" class="btn btn-outline-secondary px-4">
+                        <i class="bi bi-arrow-left"></i> Quay Lại
+                    </a>
+                    <a th:href="@{'/bacsi/trangchu/lichkham/hoanthanh'(maLichKham=${lichKham.maLichKham})}" class="btn btn-success px-4">
+                        <i class="bi bi-check-circle"></i> Hoàn thành
+                    </a>
+                    <a th:href="@{'/bacsi/trangchu/dichvu/them?maLichKham=' + ${lichKham.maLichKham}}" class="btn btn-primary px-4">
+                        <i class="bi bi-plus-circle"></i> Thêm dịch vụ
+                    </a>
+                </div>
+                
+                
+            </div>
+        </div>
+     </div>
+ </div>
+    <!-- Bootstrap JS & Icons -->
+    <script th:src="@{https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js}"></script>
+    <link rel="stylesheet" th:href="@{https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css}" />
+</body>
+</html>

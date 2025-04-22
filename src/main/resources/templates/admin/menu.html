@@ -1,13 +1,60 @@
+<!-- Nhớ có link này trong layout chính -->
+ <!DOCTYPE html>
+ <html lang="en">
+ <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <title>Document</title>
+ </head>
+ <body>
+   
 
 <div th:fragment="menu" class="sidebar">
     <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/vaitro}">Vai Trò</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/quanly}">Quản Lí</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/benhnhan}">Bệnh Nhân</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/chuyenkhoa}">Chuyên Khoa</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/bacsi}">Bác sĩ</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/nhanvien}">Nhân Viên</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/dichvu}">Dịch Vụ</a></li>
-        <li class="nav-item"><a class="nav-link" th:href="@{/quanly/trangchu/trangthuoc}"> Trang Thuốc</a></li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/vaitro}">
+                <i class="fas fa-user-shield me-2"></i>🛡️ Vai Trò
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/quanly}">
+                <i class="fas fa-tools me-2"></i>🛠️ Quản Lí
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/benhnhan}">
+                <i class="fas fa-user-injured me-2"></i>🤕 Bệnh Nhân
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/chuyenkhoa}">
+                <i class="fas fa-book-medical me-2"></i>📚 Chuyên Khoa
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/bacsi}">
+                <i class="fas fa-user-md me-2"></i>👨‍⚕️ Bác sĩ
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/nhanvien}">
+                <i class="fas fa-user-tie me-2"></i>👔 Nhân Viên
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/dichvu}">
+                <i class="fas fa-concierge-bell me-2"></i>🛎️ Dịch Vụ
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" th:href="@{/quanly/trangchu/thuoc}">
+                <i class="fas fa-pills me-2"></i>💊 Thuốc
+            </a>
+        </li>
     </ul>
 </div>
+ </body>
+ </html>
+

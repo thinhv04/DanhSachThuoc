@@ -23,7 +23,7 @@ public class KhoThuocController {
                                       : khoThuocService.getAllKhoThuoc();
         model.addAttribute("khoThuocList", khoThuocList);
         model.addAttribute("keyword", keyword);
-        return "nhanvien/khothuoc";
+        return "nhanvien/kho_thuoc";
     }
 
     // Xử lý cập nhật số lượng thuốc trong kho

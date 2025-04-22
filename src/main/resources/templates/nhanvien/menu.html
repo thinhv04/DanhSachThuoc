@@ -1,0 +1,70 @@
+
+<div class="col-md-3 sidebar custom-sidebar" th:fragment="menu">
+    <h3 class="text-center mb-4 text-primary">📌 Nhân Viên</h3>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/nhanvien/trangchu/nhapthuoc/form}">📥 Nhập Thuốc</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/nhanvien/trangchu/khothuoc/list}">📦 Kho Thuốc</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/nhanvien/trangchu/thuoc}">📑 Danh Sách Thuốc</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn-secondary mb-2" th:href="@{/nhanvien/profile}">👤 Thông Tin Cá Nhân</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn-secondary mb-2" th:href="@{/nhanvien/trangchu/lichkham/cho-xac-nhan}">📅 Danh Sách Lịch Khám</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn-secondary" th:href="@{/nhanvien/trangchu/thanhtoan/hoadon}">🧾 Danh Sách Hóa đơn</a>
+        </li>
+    </ul>
+    <style>
+        .custom-sidebar {
+
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, 0.05);
+            min-height: 100vh;
+        }
+    
+        .custom-btn {
+            display: block;
+            background-color: #007bff;
+            color: white;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 12px;
+            text-align: left;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+    
+        .custom-btn:hover {
+            background: linear-gradient(135deg, #6f42c1, #007bff);
+            transform: translateX(4px);
+            color: white;
+        }
+    
+        .custom-btn-secondary {
+            display: block;
+            background-color: #6c757d;
+            color: white;
+            font-weight: 500;
+            padding: 10px 15px;
+            border-radius: 12px;
+            text-align: left;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+    
+        .custom-btn-secondary:hover {
+            background: linear-gradient(135deg, #6f42c1, #007bff);
+            transform: translateX(4px);
+            color: white;
+        }
+    </style>
+    
+</div>

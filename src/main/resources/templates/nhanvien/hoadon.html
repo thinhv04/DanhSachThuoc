@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Danh sách Hóa Đơn</title>
+  <!-- Sử dụng Bootstrap CSS phiên bản 5 -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+    }
+    .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background: #343a40;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: white;
+    }
+    .sidebar .nav-link {
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease-in-out;
+    }
+    .sidebar .nav-link:hover {
+      background-color: #495057;
+    }
+    .content {
+      margin-left: 270px;
+      padding: 20px;
+    }
+    .hero-section {
+      background: linear-gradient(135deg, #6f42c1, #007bff);
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div th:replace="~{nhanvien/menu :: menu}"></div>
+
+<!-- Main Content -->
+<div class="content">
+  <div class="hero-section mb-4">
+    <h2 class="text-center">👨‍⚕️ Nhân Viên Y Tế - Trách Nhiệm & Sứ Mệnh</h2>
+    <p class="mt-3">
+        Nhân viên y tế đóng vai trò quan trọng trong hệ thống chăm sóc sức khỏe, đặc biệt là việc quản lý thuốc.
+        Họ không chỉ đảm bảo thuốc được nhập đúng quy trình mà còn theo dõi chất lượng và số lượng thuốc trong
+        kho.
+    </p>
+    <ul>
+        <li>📦 <strong>Quản lý nhập thuốc:</strong> Kiểm tra và ghi nhận số lượng thuốc mới nhập.</li>
+        <li>📊 <strong>Theo dõi kho thuốc:</strong> Cập nhật số lượng thuốc còn trong kho theo thời gian thực.
+        </li>
+        <li>💬 <strong>Tư vấn & hỗ trợ:</strong> Hỗ trợ bác sĩ và bệnh nhân về việc sử dụng thuốc an toàn.</li>
+    </ul>
+</div>
+
+  <div class="mt-4">
+    <div class="container my-4">
+      <h2 class="mb-4 text-center">Danh sách Hóa Đơn Đã Thanh Toán</h2>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle text-center">
+          <thead class="table-primary">
+            <tr>
+              <th scope="col">Mã Hóa Đơn</th>
+              <th scope="col">Mã Lịch Khám</th>
+              <th scope="col">Tên Bệnh Nhân</th>
+              <th scope="col">Mã Nhân Viên</th>
+              <th scope="col">Tổng Tiền</th>
+              <th scope="col">💳 Hành Động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="hoadon : ${hoadonList}">
+              <td th:text="${hoadon.maHoaDon}">HD123</td>
+              <td th:text="${hoadon.lichKham.maLichKham}">LK123</td>
+              <td th:text="${hoadon.lichKham.benhNhan.hoTen}">Nguyễn Văn A</td>
+              <td th:text="${hoadon.lichKham.nhanVien.maNhanVien}">NV123</td>
+              <td th:text="${#numbers.formatDecimal(hoadon.tongTien, 0, 'COMMA', 0, 'POINT')}">100000 VNĐ</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

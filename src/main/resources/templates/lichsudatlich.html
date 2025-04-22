@@ -30,6 +30,34 @@
         .icon {
             margin-right: 5px;
         }
+        .profile-info {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    background: #f8f9fa;
+    border-radius: 8px;
+    transition: all 0.3s ease-in-out;
+}
+
+.info-item:hover {
+    background: #e9ecef;
+    transform: scale(1.02);
+}
+
+.icon {
+    font-size: 18px;
+    color: #007bff;
+    width: 24px;
+    text-align: center;
+}
+
     </style>
 </head>
 
@@ -62,6 +90,22 @@
                                   th:classappend="${lich.trangThai == 'Đã xác nhận'} ? 'status-confirmed' : 'status-pending'">
                             </span>
                         </p>
+                        <span th:if="${lich.trangThai == 'Chờ xác nhận'}">
+                            <a th:href="@{/nguoidung/lichkham/huylichkham(maLichKham=${lich.maLichKham})}"
+                                onclick="return confirm('Bạn có chắc muốn hủy lịch này không?')"
+                                class="btn btn-danger btn-sm">
+                                <i class="fas fa-times-circle"></i> Hủy lịch
+                            </a>
+                        </span>
+
+                        <!-- Nút Hủy lịch bị khóa (nếu trạng thái không phải "Chờ xác nhận") -->
+                        <span th:if="${lich.trangThai != 'Chờ xác nhận'}">
+                            <a class="btn btn-secondary btn-sm disabled"
+                                style="pointer-events: none; opacity: 0.65; cursor: not-allowed;"
+                                title="Không thể hủy lịch đã xác nhận hoặc đã hủy">
+                                <i class="fas fa-times-circle"></i> Hủy lịch
+                            </a>
+                        </span>
                     </div>
                 </div>
 
@@ -69,44 +113,49 @@
 
             <!-- Right column -->
             <div class="col-md-4">
-                <h5>Thông tin tài khoản</h5>
-                <div class="p-3 bg-white rounded shadow-sm">
-                    <div class="mb-3">
-                        <i class="fas fa-user-circle icon"></i> 
-                        <strong th:text="${benhNhan.hoTen}"></strong>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-envelope icon"></i> 
-                        <span th:text="${benhNhan.email}"></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.sdt}" ></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.gioiTinh}" ></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.namSinh}" ></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.tinhTp}" ></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.quanHuyen}" ></span>
-                    </div>
-                    <div class="mb-2">
-                        <i class="fas fa-phone icon"></i> 
-                        <span th:text="${benhNhan.duong}" ></span>
+                <h5 class="mb-3 text-primary"><i class="fas fa-user-circle"></i> Thông tin tài khoản</h5>
+                <div class="p-4 bg-white rounded shadow-sm">
+                    <div class="profile-info">
+                        <div class="info-item">
+                            <i class="fas fa-user icon"></i>
+                            <strong>Họ & Tên:</strong> <span th:text="${benhNhan.hoTen}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope icon"></i>
+                            <strong>Email:</strong> <span th:text="${benhNhan.email}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-phone icon"></i>
+                            <strong>Số điện thoại:</strong> <span th:text="${benhNhan.sdt}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-venus-mars icon"></i>
+                            <strong>Giới tính:</strong> <span th:text="${benhNhan.gioiTinh}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-calendar-alt icon"></i>
+                            <strong>Năm sinh:</strong> <span th:text="${benhNhan.namSinh}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map-marker-alt icon"></i>
+                            <strong>Tỉnh/TP:</strong> <span th:text="${benhNhan.tinhTp}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-map icon"></i>
+                            <strong>Quận/Huyện:</strong> <span th:text="${benhNhan.quanHuyen}"></span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-road icon"></i>
+                            <strong>Đường:</strong> <span th:text="${benhNhan.duong}"></span>
+                        </div>
                     </div>
                     <hr>
-                    <p class="small text-muted">Nếu bạn cần hỗ trợ hoặc thay đổi lịch hẹn, vui lòng liên hệ hotline: <strong>1800 1234</strong>.</p>
+                    <p class="small text-muted text-center">
+                        Nếu bạn cần hỗ trợ hoặc thay đổi lịch hẹn, vui lòng liên hệ <strong class="text-danger">1800 1234</strong>.
+                    </p>
                 </div>
             </div>
+            
 
         </div>
     </div>

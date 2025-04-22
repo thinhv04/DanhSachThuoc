@@ -1,0 +1,28 @@
+<div th:fragment="tab">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a th:href="@{/nhanvien/trangchu/lichkham/cho-xac-nhan}"
+               th:class="${activeTab == 'cho-xac-nhan'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Lịch khám chờ xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/nhanvien/trangchu/lichkham/cho-bac-si}"
+               th:class="${activeTab == 'cho-bac-si'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Lịch khám chờ bác sĩ xác nhận
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/nhanvien/trangchu/lichkham/da-huy}"
+               th:class="${activeTab == 'da-huy'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Lịch khám đã hủy
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/nhanvien/trangchu/lichkham/da-hoan-thanh}"
+               th:class="${activeTab == 'da-hoan-thanh'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Lịch khám đã hoàn thành
+            </a>
+        </li>
+    </ul>
+</div>

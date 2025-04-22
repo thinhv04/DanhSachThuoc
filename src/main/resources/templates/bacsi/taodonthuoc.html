@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tạo Đơn Thuốc</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: linear-gradient(to right, #e3f2fd, #f8f9fa);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 40px 15px;
+        }
+
+        .card {
+            border: none;
+            border-radius: 1.5rem;
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
+        }
+
+        .card-title {
+            font-size: 1.9rem;
+            font-weight: 700;
+            text-align: center;
+            background: linear-gradient(to right, #0d6efd, #0dcaf0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #495057;
+        }
+
+        .form-control {
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13,110,253,.25);
+        }
+
+        .btn-primary {
+            border-radius: 12px;
+            font-weight: 600;
+            padding: 8px 24px;
+        }
+
+        .btn-outline-secondary {
+            border-radius: 12px;
+            font-weight: 500;
+            padding: 8px 24px;
+        }
+
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+        }
+
+        .btn-outline-secondary:hover {
+            background-color: #e2e6ea;
+        }
+
+        .icon {
+            font-size: 1.4rem;
+            margin-right: 8px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-7 col-xl-6">
+            <div class="card p-4">
+                <div class="card-body">
+                    <h4 class="card-title">📝 Tạo Đơn Thuốc </h4>
+
+                    <form th:action="@{/bacsi/trangchu/benhan/donthuoc/luu}" th:object="${donThuoc}" method="post">
+                        <!-- Mã Bệnh Án -->
+                        <div class="mb-3">
+                            <label class="form-label">🆔 Mã Bệnh Án</label>
+                            <input type="text" class="form-control" th:value="*{benhAn.maBenhAn}" readonly />
+                            <input type="hidden" th:field="*{benhAn.maBenhAn}" />
+                        </div>
+
+                        <!-- Bác sĩ -->
+                        <div class="mb-3">
+                            <label class="form-label">👨‍⚕️ Bác Sĩ</label>
+                            <input type="text" class="form-control" th:value="*{bacSi.hoTen}" readonly />
+                            <input type="hidden" th:field="*{bacSi.maBacSi}" />
+                        </div>
+
+                        <!-- Ngày lập -->
+                        <div class="mb-3">
+                            <label class="form-label">📅 Ngày Lập</label>
+                            <input type="text" class="form-control"
+                                   th:value="${#temporals.format(donThuoc.ngayLap, 'dd/MM/yyyy HH:mm')}" readonly />
+                            <input type="hidden" th:field="*{ngayLap}" />
+                        </div>
+
+                        <!-- Nút hành động -->
+                        <div class="d-flex justify-content-between mt-4">
+                            <button type="submit" class="btn btn-primary">
+                                💾 Lưu Đơn Thuốc
+                            </button>
+                            <a th:href="@{/bacsi/trangchu/benhan/danh-sach-benh-an}" class="btn btn-outline-secondary">
+                                ← Quay lại
+                            </a>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS (fallback nếu có lỗi từ Thymeleaf) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

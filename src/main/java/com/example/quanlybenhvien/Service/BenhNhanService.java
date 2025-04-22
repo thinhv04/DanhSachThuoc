@@ -1,6 +1,7 @@
 package com.example.quanlybenhvien.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -99,6 +100,10 @@ public class BenhNhanService {
 
     public BenhNhan findByEmail(String email) {
         return benhNhanDao.findByEmail(email).orElse(null);
+    }
+
+    public Optional<BenhNhan> findByIdOptional(Integer id) {
+        return benhNhanDao.findById(id);
     }
 
 }

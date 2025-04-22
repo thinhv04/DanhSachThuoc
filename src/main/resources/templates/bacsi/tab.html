@@ -1,0 +1,17 @@
+<div th:fragment="tab">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a th:href="@{/bacsi/trangchu/benhan}"
+               th:class="${activeTab == 'lich-kham'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Danh sách lịch khám
+            </a>
+        </li>
+        <li class="nav-item">
+            <a th:href="@{/bacsi/trangchu/benhan/danh-sach-benh-an}"
+               th:class="${activeTab == 'danh-sach-benh-an'} ? 'nav-link active bg-primary text-white' : 'nav-link'">
+               Danh sách bệnh án
+            </a>
+        </li>
+        
+    </ul>
+</div>

@@ -33,7 +33,8 @@ public class HoaDonLichKham {
     private LichKham lichKham;
 
     @Column(name = "ngay_thanh_toan", nullable = false)
-    private LocalDate ngayThanhToan;
+    @Temporal(TemporalType.DATE)
+    private LocalDate ngayThanhToan = LocalDate.now();
 
     @Column(name = "tong_tien", nullable = false)
     private Double tongTien;

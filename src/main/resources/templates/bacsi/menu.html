@@ -1,0 +1,77 @@
+<div class="col-md-3 sidebar custom-sidebar" th:fragment="menu">
+    <h4 class="text-center">🩺 Bác Sĩ</h4>
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/bacsi/trangchu/lichkham/cho-xac-nhan}">📋 Xác nhận lịch khám</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/bacsi/trangchu/lichkham/da-xac-nhan}">📆 Lịch khám đã xác nhận</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn mb-2" th:href="@{/bacsi/trangchu/benhan}">📝 Thêm bệnh án</a>
+        </li>
+        <li class="nav-item" th:if="${lichKham != null}">
+            <a class="nav-link custom-btn mb-2" th:href="@{'/bacsi/trangchu/dichvu/them?maLichKham=' + ${lichKham.maLichKham}}">🧾 Thêm dịch vụ vào lịch khám</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn-secondary mb-2" th:href="@{/bacsi/profile}">🧑‍⚕️ Thông tin cá nhân</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link custom-btn-danger text-white fw-bold" th:href="@{/bacsi/logout}">🔓 Đăng xuất</a>
+        </li>
+    </ul>
+    <style>
+        .custom-sidebar {
+
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .custom-btn {
+        background-color: #007bff;
+        border: 1px solid #1759bb;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-align: left;
+        color: #333;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .custom-btn:hover {
+        background: linear-gradient(135deg, #6f42c1, #007bff);
+            transform: translateX(4px);
+            color: white;
+    }
+
+    .custom-btn-secondary {
+        background-color: #007bff;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-align: left;
+        color: #333;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .custom-btn-secondary:hover {
+        background: linear-gradient(135deg, #6f42c1, #007bff);
+            transform: translateX(4px);
+            color: white;
+    }
+
+    .custom-btn-danger {
+        background-color: #dc3545;
+        padding: 10px 15px;
+        border-radius: 8px;
+        text-align: left;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .custom-btn-danger:hover {
+        background-color: #bd2130;
+        color: #fff;
+        text-decoration: none;
+    }
+
+    </style>
+</div>

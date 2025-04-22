@@ -43,19 +43,33 @@ public class NhapThuocController {
     }
 
     @PostMapping("/them")
-    public String themNhapThuoc(@ModelAttribute("nhapThuoc") NhapThuoc nhapThuoc, RedirectAttributes redirectAttributes) {
-        NhanVien nhanVienDangNhap = nhanVienService.getNhanVienDangNhap();
-        if (nhanVienDangNhap == null) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy thông tin nhân viên đăng nhập!");
-            return "redirect:/nhanvien/trangchu/nhapthuoc/form";
-        }
-        nhapThuoc.setNhanVien(nhanVienDangNhap);
-        try {
-            nhapThuocService.themNhapThuoc(nhapThuoc);
-            redirectAttributes.addFlashAttribute("successMessage", " >>   Thuốc đã nhập thành công - Trân trọng cảm ơn !");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Lỗi được phát hiện: " + e.getMessage());
-        }
+public String themNhapThuoc(@ModelAttribute("nhapThuoc") NhapThuoc nhapThuoc,
+                            RedirectAttributes redirectAttributes) {
+
+    NhanVien nhanVienDangNhap = nhanVienService.getNhanVienDangNhap();
+
+    if (nhanVienDangNhap == null) {
+        // Nếu không tìm thấy nhân viên → trả về lỗi
+        redirectAttributes.addFlashAttribute("errorMessage", "Không tìm thấy thông tin nhân viên đăng nhập!");
         return "redirect:/nhanvien/trangchu/nhapthuoc/form";
     }
+
+    // Gán nhân viên cho bản ghi nhập thuốc
+    nhapThuoc.setNhanVien(nhanVienDangNhap);
+
+    try {
+        // Gọi service lưu nhập thuốc
+        nhapThuocService.themNhapThuoc(nhapThuoc);
+
+        // Nếu thành công → gán successMessage
+        redirectAttributes.addFlashAttribute("successMessage", " ✅ Nhập thuốc thành công!");
+    } catch (Exception e) {
+        // Nếu có lỗi khi lưu → gán errorMessage
+        redirectAttributes.addFlashAttribute("errorMessage", " ❌ Lỗi khi nhập thuốc: " + e.getMessage());
+    }
+
+    // Quay lại form nhập thuốc, hiển thị thông báo
+    return "redirect:/nhanvien/trangchu/nhapthuoc/form";
+}
+
 }

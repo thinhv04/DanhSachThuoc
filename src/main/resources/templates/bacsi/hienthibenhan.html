@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Quản lý bệnh án</title>
+  <!-- Sử dụng Bootstrap CSS từ CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css">
+</head>
+<style>
+  body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f8f9fa;
+  }
+  .sidebar {
+      width: 250px;
+      min-height: 100vh;
+      background: #343a40;
+      padding: 20px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      color: white;
+  }
+  .sidebar .nav-link {
+      color: white;
+      font-size: 16px;
+      padding: 10px;
+      border-radius: 5px;
+      transition: all 0.3s ease-in-out;
+  }
+  .sidebar .nav-link:hover {
+      background-color: #495057;
+  }
+  .content {
+      margin-left: 270px;
+      padding: 20px;
+  }
+  .hero-section {
+      background: linear-gradient(135deg, #6f42c1, #007bff);
+      color: white;
+      padding: 40px;
+      border-radius: 10px;
+  }
+</style>
+<body>
+   <!-- Sidebar -->
+   <div th:replace="~{bacsi/menu :: menu}"></div>
+
+   <!-- Main Content -->
+   <div class="content">
+       <div class="hero-section">
+           <h2 class="text-center">👨‍⚕️ Nhân Viên Y Tế - Trách Nhiệm & Sứ Mệnh</h2>
+           <p class="mt-3">
+               Nhân viên y tế đóng vai trò quan trọng trong hệ thống chăm sóc sức khỏe, đặc biệt là việc quản lý thuốc. 
+               Họ không chỉ đảm bảo thuốc được nhập đúng quy trình mà còn theo dõi chất lượng và số lượng thuốc trong kho.
+           </p>
+           <p>
+               🔹 **Quản lý nhập thuốc:** Kiểm tra và ghi nhận số lượng thuốc mới nhập.  
+               🔹 **Theo dõi kho thuốc:** Cập nhật số lượng thuốc còn trong kho theo thời gian thực.  
+               🔹 **Tư vấn & hỗ trợ:** Hỗ trợ bác sĩ và bệnh nhân về việc sử dụng thuốc an toàn.  
+           </p>
+       </div>
+
+       <div class="mt-4">
+           <h4>📋 Các Chức Năng Chính</h4>
+           <div class="container my-4">
+            <div th:include="~{bacsi/tab :: tab}"></div>
+
+            <h2 class="text-center mb-4">Danh sách lịch khám chưa thêm có bệnh án</h2>
+            
+            <!-- Hiển thị thông báo nếu có -->
+            <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+            <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+            
+            <div class="table-responsive">
+                <table class="table table-bordered table-hover align-middle">
+                  <thead class="table-light">
+                    <tr>
+                        <th>Mã Bệnh Án</th>
+                        <th>Tên Bệnh Án</th>
+                        <th>Mã Lịch Khám</th>
+                        <th>Mã Bác Sĩ</th>
+                        <th>Mã Bệnh Nhân</th> 
+                        <th>Ngày Khám</th>
+                        <th>Triệu Chứng</th>
+                        <th>Điều Trị</th>
+                        <th>Ghi Chú</th>
+                        <th>Thao tác</th> <!-- Cột thao tác -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr th:each="benhan : ${danhSachBenhAn}">
+                        <td th:text="${benhan.maBenhAn}">1</td>
+                        <td th:text="${benhan.tenBenhAn}">Bệnh Án 1</td>
+                        <td th:text="${benhan.lichKham.maLichKham}">LK001</td>
+                        <td th:text="${benhan.bacSi.maBacSi}">BS001</td>
+                        <td th:text="${benhan.lichKham.benhNhan.hoTen}">BN001</td>
+                        <td th:text="${#temporals.format(benhan.ngayKham.toLocalDate(), 'dd/MM/yyyy')}">01/01/2025</td>
+                        <td th:text="${benhan.trieuChung}">Sốt cao, ho</td>
+                        <td th:text="${benhan.dieuTri}">Dùng thuốc hạ sốt</td>
+                        <td th:text="${benhan.ghiChu}">Theo dõi thêm</td>
+                        <td>
+                            <div class="d-flex flex-column gap-1">
+                                <a th:href="@{/bacsi/trangchu/benhan/edit/{id}(id=${benhan.maBenhAn})}" class="btn btn-warning btn-sm">Sửa</a>
+                                <a th:href="@{/bacsi/trangchu/benhan/donthuoc/tao(maBenhAn=${benhan.maBenhAn})}" class="btn btn-primary btn-sm">Tạo Đơn </a>
+                                <a th:href="@{/bacsi/trangchu/benhan/chitietdonthuoc/xem-theo-benh-an(maBenhAn=${benhan.maBenhAn})}" class="btn btn-info btn-sm">Xem Chi Tiết</a>
+                            </div>
+                        </td>
+                        
+                        
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+          </div>
+       </div>
+   </div>
+
+  <!-- Bootstrap JS Bundle (với Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

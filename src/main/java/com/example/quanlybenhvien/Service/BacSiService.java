@@ -1,18 +1,24 @@
 package com.example.quanlybenhvien.Service;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.example.quanlybenhvien.Dao.BacSiDao;
 import com.example.quanlybenhvien.Entity.BacSi;
+import com.example.quanlybenhvien.exception.BacSiNotFoundException;
+import com.example.quanlybenhvien.exception.ResourceNotFoundException;
 
 @Service
 public class BacSiService {
@@ -89,6 +95,43 @@ public class BacSiService {
 
     public List<BacSi> getBacSiByChuyenKhoa(String maChuyenKhoa) {
         return bacsiDao.findByChuyenKhoa_MaChuyenKhoa(maChuyenKhoa);
+    }
+
+    public BacSi getBacSiDangNhap() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated()) {
+            return getBacSiByEmail(authentication.getName());
+        }
+        return null;
+    }
+
+    public void update(BacSi bacSiMoi) {
+        BacSi bacSiCu = bacsiDao.findByMaBacSi(bacSiMoi.getMaBacSi())
+                .orElseThrow(
+                        () -> new ResourceNotFoundException("Không tìm thấy bác sĩ với mã: " + bacSiMoi.getMaBacSi()));
+
+        // ✅ Cập nhật thông tin cơ bản
+        bacSiCu.setHoTen(bacSiMoi.getHoTen());
+        bacSiCu.setGioiTinh(bacSiMoi.getGioiTinh());
+        bacSiCu.setDiaChi(bacSiMoi.getDiaChi());
+        bacSiCu.setSdt(bacSiMoi.getSdt());
+        bacSiCu.setCccd(bacSiMoi.getCccd());
+        bacSiCu.setEmail(bacSiMoi.getEmail());
+        bacSiCu.setGhiChu(bacSiMoi.getGhiChu());
+
+        // ✅ Cập nhật hình nếu có
+        if (bacSiMoi.getHinh() != null && !bacSiMoi.getHinh().isEmpty()) {
+            bacSiCu.setHinh(bacSiMoi.getHinh());
+        }
+
+        // ✅ Cập nhật mật khẩu nếu có thay đổi
+        if (bacSiMoi.getMatKhau() != null && !bacSiMoi.getMatKhau().isEmpty()) {
+            bacSiCu.setMatKhau(passwordEncoder.encode(bacSiMoi.getMatKhau()));
+        }
+
+        // ❌ Không cập nhật vai trò tại đây (giống như nhân viên)
+
+        bacsiDao.save(bacSiCu);
     }
 
 }

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Xác nhận thanh toán</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .card {
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            background-color: #ffffff;
+            padding: 30px;
+        }
+
+        h3 span {
+            color: #007bff;
+        }
+
+        .info-label {
+            font-weight: 500;
+            color: #495057;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .list-group-item {
+            border: none;
+            border-bottom: 1px solid #dee2e6;
+            padding: 12px 0;
+        }
+
+        .list-group-item:last-child {
+            border-bottom: none;
+        }
+
+        .total {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #198754;
+        }
+
+        .btn-confirm {
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+
+        .divider {
+            height: 1px;
+            background-color: #dee2e6;
+            margin: 24px 0;
+        }
+    </style>
+</head>
+
+<body>
+    <form th:action="@{/nhanvien/trangchu/thanhtoan/xacnhanthanhtoan}" method="POST">
+        <!-- Các input ẩn để gửi dữ liệu cần thiết -->
+        <input type="hidden" name="lichKham.maLichKham" th:value="${maLichKham}">
+        <input type="hidden" name="ngay_thanh_toan" th:value="${ngayThanhToan}" />
+        <input type="hidden" name="tongTien" th:value="${tongTien}" />
+
+        <div class="container py-5">
+            <div class="card mx-auto" style="max-width: 700px;">
+                <h3 class="text-center mb-4">
+                    Xác nhận thanh toán cho bệnh nhân:
+                    <span th:text="${tenBenhNhan}">Tên bệnh nhân</span>
+                </h3>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p class="info-label">Mã lịch khám:</p>
+                        <p class="info-value" th:text="${maLichKham}">MK123</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="info-label">Ngày khám:</p>
+                        <p class="info-value" th:text="${ngayKham}">01/01/2025</p>
+                    </div>
+                </div>
+
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <p class="info-label">Giờ khám:</p>
+                        <p class="info-value" th:text="${gioKham}">09:00</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p class="info-label">Bác sĩ:</p>
+                        <p class="info-value" th:text="${bacSi}">Bác sĩ A</p>
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <p class="info-label">Nhân viên thanh toán:</p>
+                    <p class="info-value" th:text="${nhanVien}">Nhân viên B</p>
+                </div>
+
+                <div class="divider"></div>
+
+                <div class="mb-3">
+                    <p class="info-label">Chi tiết dịch vụ:</p>
+                    <ul class="list-group">
+                        <li class="list-group-item d-flex justify-content-between align-items-center"
+                            th:each="ctdv : ${dichVukham}">
+                            <div>
+                                <span th:text="${ctdv.dichVu.tenDichVu}">Dịch vụ</span>
+                                (x<span th:text="${ctdv.soLuong}">1</span>)
+                            </div>
+                            <div>
+                                <span th:text="${#numbers.formatDecimal(ctdv.dichVu.gia, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">100.000 VNĐ</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="mb-4">
+                    <label for="hinhThuc" class="form-label fw-semibold">Hình thức thanh toán:</label>
+                    <select class="form-select" id="hinhThuc" name="hinhThuc" required>
+                        <option value="" disabled selected>-- Chọn hình thức --</option>
+                        <option value="Tiền mặt" th:selected="${hinhThuc == 'Tiền mặt'}">Tiền mặt</option>
+                        <option value="Chuyển khoản" th:selected="${hinhThuc == 'Chuyển khoản'}">Chuyển khoản</option>
+                    </select>
+                </div>
+
+                <div class="text-end mb-4">
+                    <input type="text" name="trangThai" th:value="${trangThai}" />
+
+                </div>
+                <div class="divider"></div>
+
+                <div class="text-end mb-4">
+                    <span class="total">Tổng tiền:
+                        <span th:text="${#numbers.formatDecimal(tongTien, 0, 'COMMA', 0, 'POINT')} + ' VNĐ'">0 VNĐ</span>
+                    </span>
+                </div>
+
+                <button type="submit" class="btn btn-success btn-confirm">
+                    Xác nhận thanh toán
+                </button>
+            </div>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+
+</html>
